@@ -29,7 +29,7 @@ class BaseController
     }
 
     /**
-     * Summary of getQueryStringParams
+     * Summary of getQueryStringParams : returns an array of query string variables that are passed along with the incoming request
      * @return array
      */
     protected function getQueryStringParams(): array
