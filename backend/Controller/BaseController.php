@@ -11,19 +11,42 @@ class BaseController
      * @param mixed $arguments
      * @return void
      */
-    public function __call($name, $arguments)
+    public function __call(mixed $name, mixed $arguments): void
     {
         $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
     }
 
+    /**
+     * Summary of getUriSegments - Get URI segments and store them in an array
+     * @return array<string>|bool
+     */
+    protected function getUriSegments(): array
+    {
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $uri = explode('/', $uri);
+
+        return $uri;
+    }
+
+    /**
+     * Summary of getQueryStringParams
+     * @return array
+     */
+    protected function getQueryStringParams(): array
+    {
+        parse_str($_SERVER['QUERY_STRING'], $query);
+        return $query;
+    }
+
+
 
     /**
      * Summary of sendOutput
-     * @param mixed $data
-     * @param mixed $httpHeaders
-     * @return never
+     * @param string $data
+     * @param array $httpHeaders
+     * @return void
      */
-    protected function sendOutput($data, $httpHeaders = array())
+    protected function sendOutput(string $data, array $httpHeaders = array()): void
     {
         header_remove('Set-Cookie');
 
