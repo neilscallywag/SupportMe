@@ -5,16 +5,25 @@
  */
 class BaseController
 {
+
+    public function index()
+    {
+        $responseData = '{"Hello": "World"}';
+        $this->sendOutput(
+            $responseData,
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+    }
     /**
      * Summary of __call
      * @param mixed $name
      * @param mixed $arguments
      * @return void
      */
-    public function __call(mixed $name, mixed $arguments): void
-    {
-        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
-    }
+    #public function __call(mixed $name, mixed $arguments): void
+    #{
+    #    $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
+    #}
 
     /**
      * Summary of getUriSegments - Get URI segments and store them in an array
@@ -41,12 +50,12 @@ class BaseController
 
 
     /**
-     * Summary of sendOutput
+     * Render JSON Response to the index page
      * @param string $data
      * @param array $httpHeaders
      * @return void
      */
-    protected function sendOutput(string $data, array $httpHeaders = array()): void
+    public function sendOutput(string $data, array $httpHeaders = array()): void
     {
         header_remove('Set-Cookie');
 

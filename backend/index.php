@@ -1,20 +1,45 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header('Content-Type: application/json; charset=UTF-8');
+require_once "Controller/RegisterController.php";
 
 
+$base = new RegisterController();
+
+
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+
+    $base->sendOutput("Invalid Request", array("HTTP/1.1 200 OK"));
+} else {
+    $json = file_get_contents('php://input');
+    $values = json_decode($json, true);
+    print_r(json_encode($values));
+    $base->Register($values);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
-
 if ((isset($uri[2]) && $uri[2] != 'user') || !isset($uri[3])) {
-    header("HTTP/1.1 404 Not Found");
-    exit();
+header("HTTP/1.1 404 Not Found");
+exit();
 }
-
-require "Controller/RegisterController.php";
 require "Model/Database.php";
-
 $checkDatabase = new Database();
 if ($checkDatabase->isConnected) {
-    echo "Database is connected";
+echo "Database is connected";
 }
-
+*/
 ?>
