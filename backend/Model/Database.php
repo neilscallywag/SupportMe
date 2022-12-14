@@ -8,19 +8,19 @@ class Database
     private string $hostname = 'localhost';
 
     # @var string, MySQL Database
-    private string $database;
+    private string $database = 'supportme';
 
     # @var string, MySQL Username
-    private string $username;
+    private string $username = 'root';
 
     # @var string, MySQL Password
-    private string $password;
+    private string $password = '';
 
     # @object PDO, The PDO object
     private $pdo;
 
     # @bool, Whether connected to the database
-    private $isConnected = false;
+    public $isConnected = false;
 
 
 
@@ -48,7 +48,7 @@ class Database
      * @throws Exception 
      * @return void
      */
-    private function Connect(string $hostname, string $database, string $username, string $password)
+    private function Connect(string $hostname, string $database, string $username, string $password): void
     {
 
         $dsn = 'mysql:dbname=' . $database . ';host=' . $hostname;
@@ -79,7 +79,7 @@ class Database
      * @return PDOStatement|bool
      */
 
-    public function Execute(string $sql, array $parameters)
+    public function Execute(string $sql, array $parameters): bool
     {
         if (!$this->isConnected) {
             throw new Exception("Databse is not connected");
