@@ -37,11 +37,14 @@ class RegisterController extends BaseController
         } else {
             $data = json_decode($data);
             // set product property values
+
             $this->firstname = $data->firstname;
             $this->lastname = $data->lastname;
-            $this->email = filter_input(INPUT_POST, $data->email, FILTER_SANITIZE_EMAIL);
+            $this->email = filter_var( $data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
             $this->password = password_hash($this->password, PASSWORD_ARGON2I);
+
+
             if (empty($this->firstname)) {
                 $response = json_encode(array("error" => self::EMPTY_FIRSTNAME_ERROR));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
@@ -55,7 +58,7 @@ class RegisterController extends BaseController
                 $response = json_encode(array("error" => self::INVALID_EMAIL));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
-                require_once '../Model/RegisterModel.php';
+                require_once __DIR__ . '\..\Model\RegisterModel.php'               ;
                 $create = new Register();
                 $response = $create->create($this->firstname, $this->lastname, $this->email, $this->password);
 

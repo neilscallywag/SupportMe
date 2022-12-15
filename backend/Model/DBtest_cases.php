@@ -35,6 +35,10 @@ $DAO = new SessionDAO();
 $result=$DAO->fetch_session('abcdef');
 var_dump($result);
 
+$DAO = new UserDAO();
+$result = $DAO->fetch_by_email('mainuser@lol.com');
+$result=boolval($result);
+var_dump($result)
 
 ?>
 </pre>

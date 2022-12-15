@@ -36,7 +36,7 @@ class BaseController
      * @param array $httpHeaders
      * @return void
      */
-    public function sendOutput(mixed $data, array $httpHeaders = array()): void
+    public function sendOutput( $data, array $httpHeaders = array()): void
     {
         header_remove('Set-Cookie');
 
