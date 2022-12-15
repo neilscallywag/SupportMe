@@ -10,3 +10,6 @@ git clone https://github.com/neilscallywag/SupportMe.git
 ```bash
 composer install
 ```
+
+## Database Entity Relationship Schema
+![Database Schema](images/schema.png)
