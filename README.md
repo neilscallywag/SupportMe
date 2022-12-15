@@ -5,8 +5,8 @@
 
 - [x] Registeration Controller
 - [x] Login Controller
-- [] Authentication System using JWT
-- [] Database DAO
+- [ ] Authentication System using JWT
+- [ ] Database DAO
 
 ## Installation
 1. Clone the repository 
