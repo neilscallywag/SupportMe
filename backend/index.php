@@ -13,9 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     $base->sendOutput("Invalid Request", array("HTTP/1.1 200 OK"));
 } else {
     $json = file_get_contents('php://input');
-    $values = json_decode($json, true);
-    print_r(json_encode($values));
-    $base->Register($values);
+
+    try {
+        $array = $json;
+        $base->Register($json);
+    } catch (\JsonException $exception) {
+
+        $response = json_encode(array("error" => $exception));
+        $base->sendOutput(
+            $response,
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+
+    }
+
 
 }
 
