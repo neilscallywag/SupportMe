@@ -53,6 +53,16 @@ create table pledgers (
     constraint pledgerFK2 foreign key (campaign_id) references campaign(campaign_id)
 );
 
+create table session (
+    user_id int not null,
+    device varchar(255) not null,
+    session_data text not null,
+    createdat timestamp DEFAULT CURRENT_TIMESTAMP,
+    TTL timestamp not null,
+    constraint sessionPK primary key (user_id,createdat),
+    constraint sessionFK foreign key (user_id) references user(user_id)
+)
+
 insert into user values(DEFAULT,'Joshua','Sumarlin','joshua@lol.org',123,DEFAULT,DEFAULT);
 insert into user values(DEFAULT,'Neil','Sharma','neil@lol.org',456,DEFAULT,DEFAULT);
 insert into campaign values(DEFAULT,1,'Save my grades','Help me keep my scholarship',NULL,DEFAULT,DEFAULT);
