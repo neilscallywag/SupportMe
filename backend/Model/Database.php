@@ -10,6 +10,7 @@ class ConnectionManager
         
         $host     = 'localhost';
         $port     = '3306';
+        $dbname   = 'supportme';
         $username = 'root';
         $password = '';
 
