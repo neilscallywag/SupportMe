@@ -1,9 +1,9 @@
 <?php
 
-$test = false;
-var_dump($test ===false);
-
 require 'Database.php';
-$test=new Database();
-echo ($test->evaluate_join(['comment','user','campaign']));
+
+$DAO = new UserDAO();
+$result = $DAO->fetch_password("1");
+
+var_dump($result)
 ?>
