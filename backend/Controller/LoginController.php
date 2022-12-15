@@ -47,49 +47,35 @@ class LoginController extends BaseController
                 $login = new Login();
                 //TODO: Create authenticate method
                 $response = $login->authenticate($this->email, $this->password); # Array | Boolean (if failed login)
-
                 if (gettype($response) == "array") {
 
                     $issued_at = time();
                     $expiration_time = $issued_at + (60 * 60); // valid for 1 hour
 
 
-                    include_once '../vendor/firebase/php-jwt/src/BeforeValidException.php';
-                    include_once '../vendor/firebase/php-jwt/src/ExpiredException.php';
-                    include_once '../vendor/firebase/php-jwt/src/SignatureInvalidException.php';
-                    include_once '../vendor/firebase/php-jwt/src/JWT.php';
+                    include_once '../vendor/autoload.php';
                     include_once '../inc/config.php';
 
                     $this->token = array(
                         "iat" => $issued_at,
                         "exp" => $expiration_time,
                         "iss" => ISSUER,
-                        "data" => array(
-                            "id" => $response->id,
-                            "email" => $response->email
-                        )
+                        "data" => array("id" => $response->id, "email" => $response->email)
                     );
 
                     $JWT = JWT::encode($this->token, PRIVATE_KEY, 'HS256');
-                    $output = json_encode(
-                        array(
-                            "message" => self::LOGIN_SUCCESS,
-                            "token" => $JWT
-                        )
-                    );
+                    $output = json_encode(array("message" => self::LOGIN_SUCCESS, "token" => $JWT));
                     $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
 
-                    //TODO: Make this fucntion in the Login Model. 
-                    // Method createSession. Params: UserID, Token, issuedAt ExpirationTime 
+                    //TODO: Make this fucntion in the Login Model.
+                    // Method createSession. Params: UserID, Token, issuedAt ExpirationTime
                     $login->createSession($response->id, $JWT, $issued_at, $expiration_time);
                 }
                 $response = json_encode(array("error" => self::LOGIN_FAILED));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
 
-
             }
         }
-
 
     }
 }
