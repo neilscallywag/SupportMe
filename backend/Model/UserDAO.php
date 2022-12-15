@@ -59,6 +59,26 @@ class UserDAO {
         return $rows;
     }
 
+    public function fetch_by_email($email){
+
+        $conn= new ConnectionManager();
+        $pdo = $conn->getConnection(); #important i did not implement exception catch
+    
+        $sql = "SELECT firstname,lastname,user_id from user where email = :email";
+        $stmt = $pdo->prepare($sql);
+        $stmt-> bindParam(':email',$email,PDO::PARAM_STR);
+        $stmt-> execute();
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $result = $stmt->fetchAll();  #shd be one
+
+        $stmt = null;
+        $pdo = null;
+
+        return $result;
+    }
+
 }
 
 ?>
