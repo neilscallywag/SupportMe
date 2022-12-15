@@ -1,5 +1,6 @@
 <?php
 
+
 spl_autoload_register(
     function($class) {
         require_once "$class.php";
@@ -7,11 +8,14 @@ spl_autoload_register(
 );
 
 class Register{
+
+
     private const SQL_FAIL = "SQL Error";
 
     private const SUCCESS = "Successfully registered";
 
     private const EMAIL_EXISTS = "Email already exists";
+
 
     private function doesEmailExist($email)
     { 
@@ -21,6 +25,7 @@ class Register{
     }
 
     public function create($firstname, $lastname, $email, $password) 
+
     {
         if ($this->doesEmailExist($email) ){
             $response = json_encode(array("error" => self::EMAIL_EXISTS));
@@ -31,6 +36,7 @@ class Register{
         $lastname = htmlspecialchars(strip_tags($lastname));
         $email = htmlspecialchars(strip_tags($email));
         $password = htmlspecialchars(strip_tags($password));
+
 
 
         try {

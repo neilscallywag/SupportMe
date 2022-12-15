@@ -1,14 +1,10 @@
 <?php
 
-/**
- * Class and Function List:
- * Function list:
- * - Register()
- * - create()
- * Classes list:
- * - RegisterController extends BaseController
- */
 include_once(__DIR__ . "/BaseController.php");
+
+/**
+ * Summary of RegisterController
+ */
 class RegisterController extends BaseController
 {
 
@@ -26,8 +22,12 @@ class RegisterController extends BaseController
 
     private const PASSWORD_CHECK_ERROR = "Passwords do not match";
 
-
-    public function Register($data)
+    /**
+     * Register a new user
+     * @param string $data : $data is a JSON array
+     * @return void
+     */
+    public function Register(string $data): void
     {
 
         if (empty($data)) {
