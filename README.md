@@ -12,4 +12,4 @@ composer install
 ```
 
 ## Database Entity Relationship Schema
-![Database Schema](images/schema.png)
+![Database Schema](images/schema.jpg)
