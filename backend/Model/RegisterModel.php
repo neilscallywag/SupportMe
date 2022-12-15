@@ -1,5 +1,5 @@
 <?php
-class Register extends database
+class Register extends Database
 {
     private const SQL_FAIL = "SQL Error";
 
@@ -7,7 +7,15 @@ class Register extends database
 
     private const EMAIL_EXISTS = "Email already exists";
 
-    public function create($firstname, $lastname, $email, $password): bool|string
+    /**
+     * Creates a new user in the database
+     * @param string $firstname
+     * @param string $lastname
+     * @param string $email
+     * @param string $password
+     * @return bool|string
+     */
+    public function create(string $firstname, string $lastname, string $email, string $password): bool|string
     {
         $db = new Database();
         $query = "INSERT INTO users SET
@@ -20,7 +28,7 @@ class Register extends database
         $email = htmlspecialchars(strip_tags($email));
         $password = htmlspecialchars(strip_tags($password));
 
-        if (doesEmailExist($email) >0 ){
+        if (self::doesEmailExist($email) > 0) {
             $response = json_encode(array("error" => self::EMAIL_EXISTS));
         }
 
@@ -33,17 +41,22 @@ class Register extends database
             $response = json_encode(array("error" => self::SQL_FAIL));
 
         }
-        return $response
+        return $response;
 
 
     }
 
-    private function doesEmailExist($email)
-    { 
+    /**
+     * Checks if the given email exists in the database
+     * @param string $email
+     * @return int
+     */
+    private function doesEmailExist(string $email)
+    {
         $db = new Database();
         $query = "SELECT email FROM users WHERE email = :email";
-        return $db->Fetch_One($query, $email);
-    
+        return count($db->FetchOne($query, $email));
+
     }
 }
 ?>

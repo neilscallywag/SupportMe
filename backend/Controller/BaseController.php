@@ -6,28 +6,9 @@
 class BaseController
 {
 
-    public function index()
-    {
-        $responseData = '{"Hello": "World"}';
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    }
     /**
-     * Summary of __call
-     * @param mixed $name
-     * @param mixed $arguments
-     * @return void
-     */
-    #public function __call(mixed $name, mixed $arguments): void
-    #{
-    #    $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
-    #}
-
-    /**
-     * Summary of getUriSegments - Get URI segments and store them in an array
-     * @return array<string>|bool
+     * Segements the URL provided to the controller
+     * @return array
      */
     protected function getUriSegments(): array
     {
@@ -38,7 +19,7 @@ class BaseController
     }
 
     /**
-     * Summary of getQueryStringParams : returns an array of query string variables that are passed along with the incoming request
+     * Returns an array of query string variables that are passed along with the incoming request
      * @return array
      */
     protected function getQueryStringParams(): array
