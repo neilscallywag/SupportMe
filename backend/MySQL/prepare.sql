@@ -1,7 +1,7 @@
 drop database if exists supportme;
-create database animals;
+create database supportme;
 
-use animals;
+use supportme;
 
 create table user (
     user_id int auto_increment not null,
@@ -23,7 +23,7 @@ create table campaign (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     constraint campaignPK primary key (campaign_id),
-    constraint campaignFK foreign key (starter_id) references user(user_id),
+    constraint campaignFK foreign key (starter_id) references user(user_id)
 );
 
 create table comment (
@@ -40,7 +40,7 @@ create table comment (
     constraint commentPK primary key (createdAt, commenter_id, campaign_id),
     constraint commentFK1 foreign key (commenter_id) references user(user_id),
     constraint commentFK2 foreign key (campaign_id) references campaign(campaign_id),
-    constraint commentFK3 foreign key (reply_id) references campaign(campaign_id),
+    constraint commentFK3 foreign key (reply_id) references campaign(campaign_id)
 );
 
 create table pledgers (
@@ -53,10 +53,10 @@ create table pledgers (
     constraint pledgerFK2 foreign key (campaign_id) references campaign(campaign_id)
 );
 
-insert into user values('Joshua','Sumarlin','joshua@lol.org',123);
-insert into user values('Neil','Sharma','neil@lol.org',456);
-insert into campaign values(1,'Save my grades','Help me keep my scholarship',NULL);
-insert into pledgers values (1,1);
-insert into pledgers values (2,1);
-insert into comment (1,1,'cake dog cat',NULL);
-insert into comment (2,1,'funny animals',1);
+insert into user values(DEFAULT,'Joshua','Sumarlin','joshua@lol.org',123,DEFAULT,DEFAULT);
+insert into user values(DEFAULT,'Neil','Sharma','neil@lol.org',456,DEFAULT,DEFAULT);
+insert into campaign values(DEFAULT,1,'Save my grades','Help me keep my scholarship',NULL,DEFAULT,DEFAULT);
+insert into pledgers values (1,1,DEFAULT,DEFAULT);
+insert into pledgers values (2,1,DEFAULT,DEFAULT);
+insert into comment values(1,1,'cake dog cat',NULL,DEFAULT,DEFAULT);
+insert into comment values (2,1,'funny animals',1,DEFAULT,DEFAULT);
