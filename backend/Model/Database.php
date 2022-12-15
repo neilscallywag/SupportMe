@@ -1,99 +1,102 @@
 <?php
+### ONLY MODIFY THIS FILE IF NECESSARY 
+### (e.g., you are using MAMP, you are using a different port number, etc) ###
+
+class ConnectionManager
+{
+    public function getConnection()
+    {
+        // VERIFY THE VALUES BELOW
+        
+        $host     = 'localhost';
+        $port     = '3306';
+        $username = 'root';
+        $password = '';
+
+        $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
+
+        try{
+            $pdo = new PDO($dsn, $username, $password);
+
+            # We can now log any exceptions on Fatal error. 
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            # Disable emulation of prepared statements, use REAL prepared statements instead.
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+
+            return $pdo;
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+            return false;
+        }
+    }
+}
 
 class Database
 {
 
-
-    # @var string, MySQL Hostname
-    private string $hostname = 'localhost';
-
-    # @var string, MySQL Database
-    private string $database = 'supportme';
-
-    # @var string, MySQL Username
-    private string $username = 'root';
-
-    # @var string, MySQL Password
-    private string $password = '';
-
     # @object PDO, The PDO object
     private $pdo;
-
     # @bool, Whether connected to the database
     public $isConnected = false;
 
+    #hardcode primary keys and foreign keys
+    #does not accommodate unary comment
+    private $relationship = [
+        'sessionuser' => 'session.user_id=user.user_id',
+        'campaignuser' => 'campaign.starter_id=user.user_id',
+        'pledgers' => 'pledgers.pledger_id=user.user_id and campaign.campaign_id=pledgers.campaign_id', #pledgers is assoc - must be obtained specifically
+        'campaigncommentuser'=> 'comment.commenter_id=user.user_id and comment.campaign_id=campaign.campaign_id'
+    ];
 
+    private $entity =['user','session','comment','session'];
 
-    /**
-     * Summary of __construct
-     * @param string $hostname
-     * @param string $database
-     * @param string $username
-     * @param string $password
-     */
-    public function __construct()
-    {
-        $this->Connect($this->hostname, $this->database, $this->username, $this->password);
+    public function evaluate_join(array $tables) { 
+
+        sort($tables);
+        $tables_str = implode($tables);
+        foreach ($this->relationship as $tables_str_valid =>  $where_clause){
+            if ($tables_str==$tables_str_valid){
+                return $where_clause;
+            };
+        };
+        return in_array($tables_str,$this->entity) ? "" : false;
     }
 
-
-
-
-    /**
-     * Summary of Connect
-     * @param string $hostname
-     * @param string $database
-     * @param string $username
-     * @param string $password
-     * @throws Exception 
-     * @return void
-     */
-    private function Connect(string $hostname, string $database, string $username, string $password): void
-    {
-
-        $dsn = 'mysql:dbname=' . $database . ';host=' . $hostname;
-        try {
-            $this->pdo = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-            # We can now log any exceptions on Fatal error. 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            # Disable emulation of prepared statements, use REAL prepared statements instead.
-            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-
-            # Connection succeeded, set the boolean to true.
-            $this->isConnected = true;
-
-
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-
+    private function Connect()  #return false/true
+    {   
+        $conn = new ConnectionManager();
+        return boolval($this->pdo=$conn->getConnection());
     }
 
-    /**
-     * Summary of Execute
-     * @param string $sql
-     * @param array $parameters
-     * @throws Exception 
-     * @return PDOStatement|bool
-     */
+# CRUD OPERATIONS : CREATE READ UPDATE DELETE
 
-    public function Execute(string $sql, array $parameters): bool
-    {
-        if (!$this->isConnected) {
-            throw new Exception("Databse is not connected");
-        }
-        if (!$parameters) {
-            return $this->pdo->query($sql);
-        }
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($parameters);
-        return $stmt;
+#FIRST ONE : READ (always include id)
+#WHERE CLAUSE ACCEPTS where strings in an arr (cause then how if need more than less than)
+#where must 
+
+    private $general_sql_fetch = "SELECT * FROM <table_name> WHERE <where_clause>";
+
+    public function fetch(array $tables, $where_clause=[]){
+        $sql_to_prepare = $this->general_sql_fetch;
+
+        #step 1 : putting in table name
+        $table_str = implode(",",$tables);
+        str_replace("<table_name>",$table_str,$sql_to_prepare);
+
+        $where_str = $this->evaluate_join($tables);
+
+        if ($where_str===False) {
+            return False; #invalid table name
+        };
+
+        #strep 2 : assembling where
+
+
+
+        
     }
-
-
-
 }
 
 

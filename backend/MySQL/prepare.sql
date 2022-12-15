@@ -61,7 +61,7 @@ create table session (
     TTL timestamp not null,
     constraint sessionPK primary key (user_id,createdat),
     constraint sessionFK foreign key (user_id) references user(user_id)
-)
+);
 
 insert into user values(DEFAULT,'Joshua','Sumarlin','joshua@lol.org',123,DEFAULT,DEFAULT);
 insert into user values(DEFAULT,'Neil','Sharma','neil@lol.org',456,DEFAULT,DEFAULT);
