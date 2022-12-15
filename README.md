@@ -1,6 +1,13 @@
 # SupportMe
  A smaller clone of change.org for learning purposes
  
+## To Do Lis
+
+- [x] Registeration Controller
+- [x] Login Controller
+- [x] Authentication System using JWT
+- [x] Database DAO
+
 ## Installation
 1. Clone the repository 
 ```bash
@@ -13,3 +20,5 @@ composer install
 
 ## Database Entity Relationship Schema
 ![Database Schema](images/schema.jpg)
+
+
