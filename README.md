@@ -1,12 +1,13 @@
 # SupportMe
  A smaller clone of change.org for learning purposes
  
-## To Do Lis
+## To Do List
 
 - [x] Registeration Controller
 - [x] Login Controller
 - [ ] Authentication System using JWT
 - [ ] Database DAO
+- [ ] Create Custom Router Class
 
 ## Installation
 1. Clone the repository 
