@@ -1,7 +1,11 @@
 <pre>
 <?php
 
-require 'Database.php';
+spl_autoload_register(
+    function($class) {
+        require_once "$class.php";
+    }
+);
 
 $DAO = new UserDAO();
 $result = $DAO->fetch_password("1");
@@ -22,9 +26,14 @@ $DAO = new PledgersDAO();
 $result=$DAO->fetch_pledgers("1");
 var_dump($result);
 
-$result=$DAO->add_pledge(4,2);
-var_dump($result)
 
+$DAO = new CommentDAO();
+$result=$DAO->fetch_all_comment(1);
+var_dump($result);
+
+$DAO = new SessionDAO();
+$result=$DAO->fetch_session('abcdef');
+var_dump($result);
 
 
 ?>
