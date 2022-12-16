@@ -74,7 +74,7 @@ class LoginController extends BaseController
                     $JWT = JWT::encode($this->token, PRIVATE_KEY, 'HS256');
 
                     //Method createSession. Params: UserID, Device , Token, issuedAt ExpirationTime
-                    if ($login->createSession($response["user_id"], 'no device for now', $JWT, $issued_at, $expiration_time))
+                    if ($login->createSession($response["user_id"], 'no device for now', $JWT, $issued_at, $expiration_str))
                     {
                         $output = json_encode(array("message" => LOGIN_SUCCESS, "token" => $JWT));
                         $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));

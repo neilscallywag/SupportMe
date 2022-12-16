@@ -10,11 +10,6 @@ spl_autoload_register(
 
 class Login
 {
-
-
-
-
-
     public function authenticate(string $email, string $password)
     {
         $DAO = new UserDAO();
@@ -22,18 +17,10 @@ class Login
 #verify user returns either false for no user/pass wrong
     }
 
-    public function createSession(int $user_id, $device , string $token, int $issued_at, int $expires_at): bool
+    public function createSession(int $user_id, $device , string $token, int $issued_at, string $expires_at): bool
     {
         $DAO = new SessionDAO();
-
-        if ($DAO->add_session($user_id, $device, $token, $expires_at) == 1)
-        {
-            return true;
-        }
-        return false;
+        return boolval($DAO->add_session($user_id, $device, $token, $expires_at) == 1);
     }
-
-
-
 }
 ?>
