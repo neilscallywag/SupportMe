@@ -37,8 +37,9 @@ var_dump($result);
 
 $DAO = new UserDAO();
 $result = $DAO->fetch_by_email('mainuser@lol.com');
-$result=boolval($result);
-var_dump($result)
+var_dump($result);
+
+var_dump(date('Y-m-d H:i:s e',time()));
 
 ?>
 </pre>
