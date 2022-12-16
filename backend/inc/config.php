@@ -1,4 +1,6 @@
 <?php
+
+
 define('PRIVATE_KEY', 'sjf093urji9ewdfnh9013rhneduifjbq4rt0rghqedufgvbdw');
 define('ISSUER', 'localhost');
 define('EMPTY_EMAIL_ERROR', 'Please enter an email address');
@@ -13,4 +15,7 @@ define('EMAIL_EXISTS', "Email already exists");
 define('EMPTY_FIRSTNAME_ERROR', "Empty firstname");
 define('INVALID_EMAIL', "Invalid email address");
 define('PASSWORD_CHECK_ERROR', "Passwords do not match");
+define('TOKEN_INVALID', "Token do not exist");
+define('CAMPAIGN_ID_INVALID', "Campaign ID invalid");
+define('EMPTY_CAMPAIGN_SEARCH','Please enter query for campaign name search')
 ?>

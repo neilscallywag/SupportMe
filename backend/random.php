@@ -1,5 +1,9 @@
+<pre>
 <?php
-$cake = 'me@lol.com';
-$test=filter_var( $cake, FILTER_SANITIZE_EMAIL);
-var_dump($test)
+    require_once "Model/DAO/CampaignDAO.php";
+
+    $DAO = new CampaignDAO();
+    var_dump($DAO->search_campaign('save'));
+
 ?>
+</pre>

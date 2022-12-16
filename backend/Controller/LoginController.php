@@ -11,7 +11,7 @@ class LoginController extends BaseController
     private string $password;
 
     # JWT authentication token
-    private string $token;
+    private array $token;
 
 
     public function Login(string $data)
@@ -32,7 +32,7 @@ class LoginController extends BaseController
 
             $this->email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
-            $this->password = password_hash($this->password, PASSWORD_ARGON2I);
+
 
             if (empty($this->email))
             {
@@ -49,19 +49,20 @@ class LoginController extends BaseController
             else
             {
 
+
                 require_once __DIR__ . '\..\Model\LoginModel.php';
                 $login = new Login();
 
                 $response = $login->authenticate($this->email, $this->password); # Array | Boolean (if failed login)
                 if (gettype($response) == "array")
-                {
-
+                {   #success
                     $issued_at = time();
                     $expiration_time = $issued_at + (60 * 60); // valid for 1 hour
+                    $expiration_str=date('Y-m-d H:i:s e',$expiration_time );
 
 
-                    include_once '../vendor/autoload.php';
-                    include_once '../inc/config.php';
+                    include_once __DIR__ . '/../vendor/autoload.php';
+                    include_once __DIR__ . '/../inc/config.php';
 
                     $this->token = array(
                         "iat" => $issued_at,
@@ -72,14 +73,16 @@ class LoginController extends BaseController
 
                     $JWT = JWT::encode($this->token, PRIVATE_KEY, 'HS256');
 
-                    // Method createSession. Params: UserID, Device , Token, issuedAt ExpirationTime
-                    if ($login->createSession($respnse["user_id"], NULL, $JWT, $issued_at, $expiration_time))
+                    //Method createSession. Params: UserID, Device , Token, issuedAt ExpirationTime
+                    if ($login->createSession($response["user_id"], 'no device for now', $JWT, $issued_at, $expiration_str))
                     {
                         $output = json_encode(array("message" => LOGIN_SUCCESS, "token" => $JWT));
                         $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                     }
 
                 }
+
+                #fail but why, does user exist? is it wrong pass?
                 $response = json_encode(array("error" => LOGIN_FAILED));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
 
