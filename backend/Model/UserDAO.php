@@ -64,7 +64,7 @@ class UserDAO {
         $conn= new ConnectionManager();
         $pdo = $conn->getConnection(); #important i did not implement exception catch
     
-        $sql = "SELECT firstname,lastname,user_id from user where email = :email";
+        $sql = "SELECT firstname,lastname,user_id,pw_hash from user where email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt-> bindParam(':email',$email,PDO::PARAM_STR);
         $stmt-> execute();
@@ -79,6 +79,15 @@ class UserDAO {
         return $result;
     }
 
+    public function verify_user ($email, $password,$device) {
+        $user_info=$this->fetch_by_email($email);
+        if (count($user_info)==1){
+            $user_info=$user_info[0];
+            return password_verify($password,$user_info['pw_hash']);
+        }
+        return false;
+    }
 }
 
 ?>
+
