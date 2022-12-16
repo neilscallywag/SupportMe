@@ -2,8 +2,9 @@
 
 include_once(__DIR__ . "/../inc/config.php");
 spl_autoload_register(
-    function ($class) {
-        require_once "$class.php";
+    function ($class)
+    {
+        require_once __DIR__ ."/DAO/$class.php";
     }
 );
 
@@ -36,6 +37,8 @@ class Register
 
         try {
             $dao = new UserDAO();
+
+            echo "\r\n";
             $dao->add_user($firstname, $email, password_hash($password, PASSWORD_DEFAULT), $lastname);
             $response = json_encode(array("message" => SUCCESS));
         } catch (Exception $e) {

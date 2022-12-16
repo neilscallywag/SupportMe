@@ -44,7 +44,7 @@ class RegisterController extends BaseController
             $this->email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
             // Hash the password.
-            $this->password = password_hash($this->password, PASSWORD_ARGON2I);
+            #$this->password = password_hash($this->password, PASSWORD_ARGON2I);
 
             // return error if empty firstname
             if (empty($this->firstname))

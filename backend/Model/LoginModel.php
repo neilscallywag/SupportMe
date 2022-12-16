@@ -4,7 +4,7 @@ include_once(__DIR__ . "/../inc/config.php");
 spl_autoload_register(
     function ($class)
     {
-        require_once "DAO/$class.php";
+        require_once __DIR__ ."/DAO/$class.php";
     }
 );
 
@@ -15,19 +15,14 @@ class Login
 
 
 
-    public function authenticate(string $email, string $password): array |bool
+    public function authenticate(string $email, string $password)
     {
         $DAO = new UserDAO();
-        if ($DAO->verify_user($email, $password, NULL))
-        {
-            $user_information = $DAO->fetch_by_email($email);
-            return array('email' => $email, 'user_id' => $user_information['user_id']);
-        }
-        return false;
-
+        return ($DAO->verify_user($email, $password));
+#verify user returns either false for no user/pass wrong
     }
 
-    public function createSession(int $user_id, $device = NULL, string $token, int $issued_at, int $expires_at): bool
+    public function createSession(int $user_id, $device , string $token, int $issued_at, int $expires_at): bool
     {
         $DAO = new SessionDAO();
 
