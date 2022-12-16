@@ -25,7 +25,12 @@ class LoginController extends BaseController
         else
         {
             $data = json_decode($data);
-            $this->email = filter_input(INPUT_POST, $data->email, FILTER_SANITIZE_EMAIL);
+            // foreach ($data as $key => $value)
+            // {
+            //     $this->sendOutput(".$key.:.$value.", array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            // }
+
+            $this->email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
             $this->password = password_hash($this->password, PASSWORD_ARGON2I);
 
@@ -44,7 +49,7 @@ class LoginController extends BaseController
             else
             {
 
-                require_once '../Model/LoginModel.php';
+                require_once __DIR__ . '\..\Model\LoginModel.php';
                 $login = new Login();
 
                 $response = $login->authenticate($this->email, $this->password); # Array | Boolean (if failed login)

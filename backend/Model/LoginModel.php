@@ -4,7 +4,7 @@ include_once(__DIR__ . "/../inc/config.php");
 spl_autoload_register(
     function ($class)
     {
-        require_once "$class.php";
+        require_once "DAO/$class.php";
     }
 );
 

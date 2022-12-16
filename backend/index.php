@@ -3,6 +3,8 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header('Content-Type: application/json; charset=UTF-8');
 require_once "Controller/RegisterController.php";
+require_once "Controller/LoginController.php";
+require_once "Controller/BaseController.php";
 require_once __DIR__ . '/vendor/autoload.php';
 
 $klein = new \Klein\Klein();

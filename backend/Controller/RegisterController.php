@@ -28,11 +28,14 @@ class RegisterController extends BaseController
     public function Register(string $data): void
     {
         // if provided JSON string is empty, return empty json error.
-        if (empty($data)) {
+        if (empty($data))
+        {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
 
-        } else {
+        }
+        else
+        {
             // Convert the JSON string into an associative array and populat the class variables.
             $data = json_decode($data);
             $this->firstname = $data->firstname;
@@ -44,22 +47,31 @@ class RegisterController extends BaseController
             $this->password = password_hash($this->password, PASSWORD_ARGON2I);
 
             // return error if empty firstname
-            if (empty($this->firstname)) {
+            if (empty($this->firstname))
+            {
                 $response = json_encode(array("error" => EMPTY_FIRSTNAME_ERROR));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 // return error if empty email    
-            } elseif (empty($this->email)) {
+            }
+            elseif (empty($this->email))
+            {
                 $response = json_encode(array("error" => EMPTY_EMAIL_ERROR));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 // return error if empty password
-            } elseif (empty($this->password) or !$this->password) {
+            }
+            elseif (empty($this->password) or !$this->password)
+            {
                 $response = json_encode(array("error" => EMPTY_PASSWORD_ERROR));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 // return error if malformed email  
-            } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            }
+            elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL))
+            {
                 $response = json_encode(array("error" => INVALID_EMAIL));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
-            } else {
+            }
+            else
+            {
                 // call the Register Model and DAO to register the new user. 
                 require_once __DIR__ . '\..\Model\RegisterModel.php';
                 $create = new Register();
