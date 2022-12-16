@@ -1,12 +1,7 @@
 <?php
 
 include_once(__DIR__ . "/../inc/config.php");
-spl_autoload_register(
-    function ($class)
-    {
-        require_once __DIR__ ."/DAO/$class.php";
-    }
-);
+include(__DIR__ . "/DAO/UserDAO.php");
 
 class Register
 {
@@ -22,7 +17,8 @@ class Register
 
     public function create($firstname, $lastname, $email, $password)
     {
-        if ($this->doesEmailExist($email)) {
+        if ($this->doesEmailExist($email))
+        {
             $response = json_encode(array("error" => EMAIL_EXISTS));
             return $response;
         }
@@ -35,13 +31,14 @@ class Register
 
 
 
-        try {
+        try
+        {
             $dao = new UserDAO();
-
-            echo "\r\n";
             $dao->add_user($firstname, $email, password_hash($password, PASSWORD_DEFAULT), $lastname);
             $response = json_encode(array("message" => SUCCESS));
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             $response = json_encode(array("error" => SQL_FAIL));
         }
         return $response;

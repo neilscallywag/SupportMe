@@ -1,12 +1,8 @@
 <?php
 
 include_once(__DIR__ . "/../inc/config.php");
-spl_autoload_register(
-    function ($class)
-    {
-        require_once __DIR__ ."/DAO/$class.php";
-    }
-);
+include(__DIR__ . "/DAO/UserDAO.php");
+include(__DIR__ . "/DAO/SessionDAO.php");
 
 class Login
 {
@@ -14,10 +10,10 @@ class Login
     {
         $DAO = new UserDAO();
         return ($DAO->verify_user($email, $password));
-#verify user returns either false for no user/pass wrong
+        #verify user returns either false for no user/pass wrong
     }
 
-    public function createSession(int $user_id, $device , string $token, int $issued_at, string $expires_at): bool
+    public function createSession(int $user_id, $device, string $token, int $issued_at, string $expires_at): bool
     {
         $DAO = new SessionDAO();
         return boolval($DAO->add_session($user_id, $device, $token, $expires_at) == 1);

@@ -10,7 +10,7 @@ include_once __DIR__ . "\inc\config.php";
 spl_autoload_register(
     function ($class)
     {
-        require_once __DIR__ ."/Controller/$class.php";
+        require_once __DIR__ . "/Controller/$class.php";
     }
 );
 
@@ -41,26 +41,48 @@ $klein->respond('POST', '/login', function ($request, $response)
     $base->Login($json);
 });
 
-$klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response)  
+$klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response)
 {
-    $json = file_get_contents('php://input');
-    $check = new TokenCheckController();
-    if ($check->CheckGivenToken($json)){
-        $base = new CampaignController();
-        $base->GetByID($request->cid);
-    };
+    #Get all the headers first 
+    $headers = getallheaders();
+
+    #if autherisation header exist
+    if (in_array('Authorization', $headers))
+    {
+        $authToken = $headers['Authorization'];
+        $json = file_get_contents('php://input');
+        $check = new AuthController();
+        if ($check->CheckGivenToken($authToken, $json))
+        {
+            $base = new CampaignController();
+            $base->GetByID($request->cid);
+        }
+        ;
+    }
+
 
 });
 
-$klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response)  #do you want substr here or in json
+$klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) #do you want substr here or in json
+
 {
-    $json = file_get_contents('php://input');
-    $check = new TokenCheckController();
-    if ($check->CheckGivenToken($json)){
-        $base = new CampaignController();
-        $campaign_substr=urldecode($request->str);
-        $base->search_campaign($campaign_substr);
-    };
+    #Get all the headers first 
+    $headers = getallheaders();
+
+    #if autherisation header exist
+    if (in_array('Authorization', $headers))
+    {
+        $authToken = $headers['Authorization'];
+        $json = file_get_contents('php://input');
+        $check = new AuthController();
+        if ($check->CheckGivenToken($authToken, $json))
+        {
+            $base = new CampaignController();
+            $campaign_substr = urldecode($request->str);
+            $base->search_campaign($campaign_substr);
+        }
+        ;
+    }
 
 });
 
