@@ -1,36 +1,31 @@
 <?php
 
-
+include_once(__DIR__ . "/../inc/config.php");
 spl_autoload_register(
-    function($class) {
+    function ($class) {
         require_once "$class.php";
     }
 );
 
-class Register{
+class Register
+{
 
-
-    private const SQL_FAIL = "SQL Error";
-
-    private const SUCCESS = "Successfully registered";
-
-    private const EMAIL_EXISTS = "Email already exists";
 
 
     private function doesEmailExist($email)
-    { 
-        $DAO=new UserDAO();
+    {
+        $DAO = new UserDAO();
         return boolval($DAO->fetch_by_email($email));
-    
+
     }
 
-    public function create($firstname, $lastname, $email, $password) 
-
+    public function create($firstname, $lastname, $email, $password)
     {
-        if ($this->doesEmailExist($email) ){
-            $response = json_encode(array("error" => self::EMAIL_EXISTS));
+        if ($this->doesEmailExist($email)) {
+            $response = json_encode(array("error" => EMAIL_EXISTS));
             return $response;
-        };
+        }
+        ;
 
         $firstname = htmlspecialchars(strip_tags($firstname)); #qn by joshua whts the pt of html special chars
         $lastname = htmlspecialchars(strip_tags($lastname));
@@ -41,10 +36,10 @@ class Register{
 
         try {
             $dao = new UserDAO();
-            $dao->add_user($firstname,$email,password_hash($password,PASSWORD_DEFAULT),$lastname);
-            $response = json_encode(array("message" => self::SUCCESS));
+            $dao->add_user($firstname, $email, password_hash($password, PASSWORD_DEFAULT), $lastname);
+            $response = json_encode(array("message" => SUCCESS));
         } catch (Exception $e) {
-            $response = json_encode(array("error" => self::SQL_FAIL));
+            $response = json_encode(array("error" => SQL_FAIL));
         }
         return $response;
 

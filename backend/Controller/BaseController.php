@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Summary of BaseController
- */
 class BaseController
 {
 
@@ -31,15 +28,14 @@ class BaseController
 
 
     /**
-     * Render JSON Response to the index page
+     * Render JSON Response to the index page. Is equivalent to response from request,response. 
      * @param string $data
      * @param array $httpHeaders
      * @return void
      */
-    public function sendOutput( $data, array $httpHeaders = array()): void
+    public function sendOutput($data, array $httpHeaders = array()): void
     {
         header_remove('Set-Cookie');
-
         if (is_array($httpHeaders) && count($httpHeaders)) {
             foreach ($httpHeaders as $httpHeader) {
                 # example:  header("HTTP/1.1 404 Not Found");
