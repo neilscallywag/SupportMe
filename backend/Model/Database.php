@@ -7,16 +7,17 @@ class ConnectionManager
     public function getConnection()
     {
         // VERIFY THE VALUES BELOW
-        
-        $host     = 'localhost';
-        $port     = '3306';
-        $dbname   = 'supportme';
+
+        $host = 'localhost';
+        $port = '3306';
+        $dbname = 'supportme';
         $username = 'root';
         $password = '';
 
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
 
-        try{
+        try
+        {
             $pdo = new PDO($dsn, $username, $password);
 
             # We can now log any exceptions on Fatal error. 
@@ -27,9 +28,11 @@ class ConnectionManager
 
             return $pdo;
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             throw new Exception($e->getMessage());
-            return false;
+
         }
     }
 }
