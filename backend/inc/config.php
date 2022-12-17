@@ -21,5 +21,5 @@ define('EMPTY_CTITLE_ERROR', 'Empty Campaign ID');
 define('EMPTY_CDESCRIPTION_ERROR', 'Empty Campaign Description');
 define('CAMPAIGN_SUCCESS', 'Campaign successfully created');
 define('CAMPAIGN_FAIL', 'Could not create campaign');
-
+define('HEADER_MISSING', 'Missing HTTP Headers');
 ?>

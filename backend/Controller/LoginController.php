@@ -13,25 +13,31 @@ class LoginController extends BaseController
     # JWT authentication token
     private array $token;
 
+    private string $device;
 
-    public function Login(string $data)
+    public function Login(string $data, array $headers)
     {
+
         if (empty($data))
         {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
 
         }
-        else
-        {
+        else if (!array_key_exists("Device",$headers)){
+            $response = json_encode(array("error" => HEADER_MISSING));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+        } else {
             $data = json_decode($data);
             // foreach ($data as $key => $value)
             // {
             //     $this->sendOutput(".$key.:.$value.", array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
-            // }
+            // }  ??? what is this for - Joshua
 
             $this->email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
+
+            $this->device = $headers['Device'];
 
 
             if (empty($this->email))
@@ -62,8 +68,6 @@ class LoginController extends BaseController
 
 
                     include_once __DIR__ . '/../vendor/autoload.php';
-                    include_once __DIR__ . '/../inc/config.php';
-
                     $this->token = array(
                         "iat" => $issued_at,
                         "exp" => $expiration_time,
@@ -74,7 +78,7 @@ class LoginController extends BaseController
                     $JWT = JWT::encode($this->token, PRIVATE_KEY, 'HS256');
 
                     //Method createSession. Params: UserID, Device , Token, issuedAt ExpirationTime
-                    if ($login->createSession($response["user_id"], 'no device for now', $JWT, $issued_at, $expiration_str))
+                    if ($login->createSession($response["user_id"], $this->device, $JWT, $issued_at, $expiration_str))
                     {
                         $output = json_encode(array("message" => LOGIN_SUCCESS, "token" => $JWT));
                         $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));

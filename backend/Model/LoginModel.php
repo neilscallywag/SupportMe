@@ -13,7 +13,7 @@ class Login
         #verify user returns either false for no user/pass wrong
     }
 
-    public function createSession(int $user_id, $device, string $token, int $issued_at, string $expires_at): bool
+    public function createSession(int $user_id, string $device, string $token, int $issued_at, string $expires_at): bool
     {
         $DAO = new SessionDAO();
         return boolval($DAO->add_session($user_id, $device, $token, $expires_at) == 1);

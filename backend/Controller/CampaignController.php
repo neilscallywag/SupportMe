@@ -59,8 +59,15 @@ class CampaignController extends BaseController
 
             $return_arr = array_map('json_encode', $campaigns_info);
 
-            $response = implode('\r\n', $return_arr) . '\r\n';
-            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            if(!empty($return_arr)){
+                $response = implode('\r\n', $return_arr) . '\r\n';
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            } else {
+                $response = json_encode(array("message" => "No campaign found"));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            };
+
+    
 
         }
 
@@ -96,7 +103,7 @@ class CampaignController extends BaseController
         }
         else
         {
-            $data = json_decode($data);
+            $data = json_decode($data,true);
             /*
             {
             user_id:,
@@ -105,34 +112,33 @@ class CampaignController extends BaseController
             campaign_picture:
             }
             */
-            if (empty($data["user_id"]))
-            {
-                $response = json_encode(array("error" => EMPTY_USER_ERROR));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
 
-            }
-            elseif (empty($data["campaign_title"]))
+            // }  REDUNDANT CHECKED IN AUTH
+            if (empty($data["campaign_title"]))
             {
                 $response = json_encode(array("error" => EMPTY_CTITLE_ERROR));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 '));
 
             }
             elseif (empty($data["campaign_description"]))
             {
                 $response = json_encode(array("error" => EMPTY_CDESCRIPTION_ERROR));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 '));
 
             }
             else
             {
                 require_once __DIR__ . '\..\Model\CampaignModel.php';
                 $campaign = new Campaign();
-                $campaign->addCampaign($data["user_id"], $data["campaign_title"], $data["campaign_description"], $data["campaign_picture"]);
-                $output = json_encode(array("message" => CAMPAIGN_SUCCESS));
-                $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                if ($campaign->addCampaign($data["user_id"], $data["campaign_title"], $data["campaign_description"],array_key_exists("campaign_picture",$data) ? $data["campaign_picture"] : NULL)){
+                    $output = json_encode(array("message" => CAMPAIGN_SUCCESS));
+                    $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                } else {
+                    $output = json_encode(array("error" => CAMPAIGN_FAIL));
+                    $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 500'));
+                };
+;
             }
-            $output = json_encode(array("error" => CAMPAIGN_FAIL));
-            $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
         }
 
     }
