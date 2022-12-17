@@ -55,6 +55,10 @@ POST /login
 }
 ```
 
+```http headers
+Device : device_name
+```
+
 ### Response
 ```json
 {
@@ -63,15 +67,103 @@ POST /login
 }
 ```
 
+## 3. Fetch campaign by campaign id
+```API
+POST /campaign/id/:id
+```
+
+### Request
+
+| Attribute  |      Type     |  Required |  Description |
+|:----------:|:-------------:|:------:|:------:|
+| `user_id` |  int | Yes | user id accessing website|
+
+
+```json
+
+{
+    "user_id":1243
+}
+```
+
+### Response
+```json
+{
+"starter_id":123,
+"c_title":"title_here",
+"c_description":"description here",
+"c_picture":"picture in base64 string"
+}
+```
+## 3. Search campaign using query
+```API
+POST /campaign/search/:query
+```
+
+### Request
+
+| Attribute  |      Type     |  Required |  Description |
+|:----------:|:-------------:|:------:|:------:|
+| `user_id` |  int | Yes | user id accessing website|
+
+
+```json
+
+{
+    "user_id":1243
+}
+```
+
+### Response
+```json
+{
+"starter_id":123,
+"c_title":"title_here",
+"c_description":"description here",
+"c_picture":"picture in base64 string"
+}
+```
+
+## 3. Create campaign
+```API
+POST /campaign/create
+```
+
+### Request
+
+| Attribute  |      Type     |  Required |  Description |
+|:----------:|:-------------:|:------:|:------:|
+| `user_id` |  int | Yes | user id accessing website|
+| `campaign_title` |  str | Yes | Title of campaign|
+| `campaign_description` |  str | Yes | Description of campaign|
+| `campaign_picture` |  str | No | Picture encoded in base64|
+
+
+```json
+
+{
+    "user_id":1243,
+    "campaign_title":"title_here",
+    "campaign_description":"description here",
+    "campaign_picture":"picture in base64 string"
+}
+```
+
+### Response
+```json
+{
+"message":"Campaign successfully created",
+}
+```
 # To Do List
 - [x] Registration Controller
 - [x] Login Controller
 - [x] Authentication System using JWT
-- [ ] Obtain Device header
+- [x] Obtain Device header
 - [x] Database DAO
 - [x] Create Custom Router Class
 - [ ] Account for malformed json type i.e missing email and password or other keys for register and login controllers
-- [ ] authenticate does not differentiate no user/wrongg pass
+- [ ] authenticate does not differentiate no user/wrong pass
 - [ ] consider what if client enters data w/not matching id
 - [ ] Retract Support from campaign
     1 Unpledge(PledgerID,CampaignID)
@@ -85,9 +177,8 @@ POST /login
 - [ ] Comment on campaign
    1. CommentOnCampaign()
    1. ReplyToComment()
-- [ ] Create SupportMe Campaign
-    1. ValidateFields()
-    2. CheckCampaignExist()
+- [x] Create SupportMe Campaign
+    1. ValidateFields() (not yet check character number shd be easy)
 - [ ] Delete SupportMe Campaign
     1. DeleteCampaign()
 - [ ] Pledge Support for Campaign
@@ -126,3 +217,13 @@ Stack trace:
 ![Database Schema](images/schema.jpg)
 
 
+curl -i  -H "Device: Chrome" -d "{ \"email\":\"mainuser@lol.com\",\"password\":1234 }" -X POST localhost/login
+
+curl -i -X POST -d "{ \"firstname\":\"sunset boulevard\",\"lastname\":\"test\",\"email\":\"mainuser@lol.com\",\"password\":1234 }" localhost/register
+
+
+curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
+
+curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
+
+curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
