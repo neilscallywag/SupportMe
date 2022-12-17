@@ -67,7 +67,26 @@ class CampaignController extends BaseController
     }
 
 
-    public function createCampaign(string $data)
+    /**
+     * This function takes in a JSON string and creates a new campaign.
+     * @author Neil 
+     * 
+     * @param string $data is a JSON string
+     * 
+     * @var int data["user_id"]                 : is the user's ID
+     * @var string data["campaign_title"]       : is the campaign title. Limit 100 words
+     * @var string data["campaign_description"] : is the campaign description. Limit 500 words
+     * @var string data["campaign_picture"]     : is an optional image Base64 string.
+     * 
+     * @return void
+     * @return 200 if successfully created a new campaign
+     * @return 400 if missing fields or incorrect length of title or description
+     * @return 500 if database error
+     */
+
+    public function createCampaign(string $data): void
+    //TODO: implement length check for title and description
+
     {
         if (empty($data))
         {
@@ -112,7 +131,7 @@ class CampaignController extends BaseController
                 $output = json_encode(array("message" => CAMPAIGN_SUCCESS));
                 $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             }
-            $output = json_encode(array("message" => CAMPAIGN_FAIL));
+            $output = json_encode(array("error" => CAMPAIGN_FAIL));
             $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
         }
 
