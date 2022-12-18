@@ -16,7 +16,7 @@ $klein = new \Klein\Klein();
 
 //index
 $klein->respond('GET', '/?', function ($request, $response) {
-    return $response->headers();
+    return "hello world";
 });
 
 //register
@@ -28,7 +28,7 @@ $klein->respond('POST', '/register', function ($request, $response) {
 
 //login
 $klein->respond('POST', '/login', function ($request, $response) {
-    $headers = getallheaders();
+    $headers = $request->headers();
     $json = file_get_contents('php://input');
     $base = new LoginController();
     $base->Login($json, $headers);
@@ -37,7 +37,7 @@ $klein->respond('POST', '/login', function ($request, $response) {
 //fetch campaign
 $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
     #Get all the headers first
-    $headers = getallheaders();
+    $headers = $request->headers();
 
     #if autherisation header exist
     if (in_array('Authorization', $headers)) {
@@ -56,7 +56,7 @@ $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
 $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $headers = getallheaders();
+    $headers = $request->headers();
 
     #if autherisation header exist
     if (in_array('Authorization', $headers)) {
@@ -76,7 +76,7 @@ $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $respons
 $klein->respond('POST', '/campaign/create', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $headers = getallheaders();
+    $headers = $request->headers();
 
     #if autherisation header exist
     if (in_array('Authorization', $headers)) {
