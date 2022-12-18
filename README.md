@@ -162,9 +162,9 @@ POST /campaign/create
 - [x] Obtain Device header
 - [x] Database DAO
 - [x] Create Custom Router Class
-- [ ] Account for malformed json type i.e missing email and password or other keys for register and login controllers
-- [ ] authenticate does not differentiate no user/wrong pass
-- [ ] consider what if client enters data w/not matching id
+- [x] Account for malformed json type i.e missing email and password or other keys for register and login controllers
+- [x] authenticate does not differentiate no user/wrong pass
+- [x] consider what if client enters data w/not matching id
 - [ ] Retract Support from campaign
     1 Unpledge(PledgerID,CampaignID)
 - [ ] Self User profile
@@ -201,29 +201,28 @@ composer install
 ```
 
 
-# Unfixed errors
-
- ```php  
-<b>Fatal error</b>:  Uncaught TypeError: Exception::__construct(): Argument #2 ($code) must be of type int, string given in C:\xampp\htdocs\vendor\klein\klein\src\Klein\Klein.php:954
-Stack trace:
-#0 C:\xampp\htdocs\vendor\klein\klein\src\Klein\Klein.php(954): Exception-&gt;__construct('SQLSTATE[HY093]...', 'HY093', Object(PDOException))
-#1 C:\xampp\htdocs\vendor\klein\klein\src\Klein\Klein.php(645): Klein\Klein-&gt;error(Object(PDOException))
-#2 C:\xampp\htdocs\index.php(68): Klein\Klein-&gt;dispatch()
-#3 {main}
-  thrown in <b>C:\xampp\htdocs\vendor\klein\klein\src\Klein\Klein.php</b> on line <b>954</b><br />
-```
 
 # Database Entity Relationship Schema
 ![Database Schema](images/schema.jpg)
 
 
+# Testing Commands
+```bash
 curl -i  -H "Device: Chrome" -d "{ \"email\":\"mainuser@lol.com\",\"password\":1234 }" -X POST localhost/login
+```
 
+```bash
 curl -i -X POST -d "{ \"firstname\":\"sunset boulevard\",\"lastname\":\"test\",\"email\":\"mainuser@lol.com\",\"password\":1234 }" localhost/register
+```
 
-
+```bash
 curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
+```
 
+```bash
 curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
+```
 
+```bash
 curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
+```
