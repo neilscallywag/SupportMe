@@ -8,31 +8,29 @@ class CampaignController extends BaseController
     private string $campaign_id;
     private string $campaign_substr;
 
+    /**
+     * This function 
+     * @author Joshua 
+     */
     public function GetByID($campaign_id)
     {
-        if (empty($campaign_id))
-        {
+        if (empty($campaign_id)) {
             $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
-            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-        }
-        else
-        {
+        } else {
             $this->campaign_id = $campaign_id;
 
             include __DIR__ . "/../Model/DAO/CampaignDAO.php";
             $DAO = new CampaignDAO();
             $campaign_info = $DAO->fetch_campaign($this->campaign_id);
 
-            if (count($campaign_info) == 1)
-            {
+            if (count($campaign_info) == 1) {
                 $response = json_encode($campaign_info[0]);
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
-            }
-            else
-            {
+            } else {
                 $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
             }
             ;
 
@@ -41,16 +39,18 @@ class CampaignController extends BaseController
 
     }
 
+    /**
+     * This function 
+     * @author Joshua
+     * 
+     */
     public function search_campaign($campaign_substr)
     {
-        if (empty($campaign_substr))
-        {
+        if (empty($campaign_substr)) {
             $response = json_encode(array("error" => EMPTY_CAMPAIGN_SEARCH));
-            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-        }
-        else
-        {
+        } else {
             $this->campaign_substr = $campaign_substr;
 
             include __DIR__ . "/../Model/DAO/CampaignDAO.php";
@@ -59,16 +59,14 @@ class CampaignController extends BaseController
 
             $return_arr = array_map('json_encode', $campaigns_info);
 
-            if(!empty($return_arr)){
+            if (!empty($return_arr)) {
                 $response = implode('\r\n', $return_arr) . '\r\n';
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
                 $response = json_encode(array("message" => "No campaign found"));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
-            };
-
-    
-
+            }
+            ;
         }
 
     }
@@ -95,15 +93,12 @@ class CampaignController extends BaseController
     //TODO: implement length check for title and description
 
     {
-        if (empty($data))
-        {
+        if (empty($data)) {
             $response = json_encode(array("error" => EMPTY_JSON));
-            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-        }
-        else
-        {
-            $data = json_decode($data,true);
+        } else {
+            $data = json_decode($data, true);
             /*
             {
             user_id:,
@@ -112,33 +107,32 @@ class CampaignController extends BaseController
             campaign_picture:
             }
             */
+            if (empty($data["user_id"])) {
+                $response = json_encode(array("error" => EMPTY_USER_ERROR));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-            // }  REDUNDANT CHECKED IN AUTH
-            if (empty($data["campaign_title"]))
-            {
+            } elseif (empty($data["campaign_title"])) {
                 $response = json_encode(array("error" => EMPTY_CTITLE_ERROR));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 '));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-            }
-            elseif (empty($data["campaign_description"]))
-            {
+            } elseif (empty($data["campaign_description"])) {
                 $response = json_encode(array("error" => EMPTY_CDESCRIPTION_ERROR));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 '));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-            }
-            else
-            {
+            } else {
                 require_once __DIR__ . '\..\Model\CampaignModel.php';
                 $campaign = new Campaign();
-                if ($campaign->addCampaign($data["user_id"], $data["campaign_title"], $data["campaign_description"],array_key_exists("campaign_picture",$data) ? $data["campaign_picture"] : NULL)){
+                if ($campaign->addCampaign($data["user_id"], $data["campaign_title"], $data["campaign_description"], array_key_exists("campaign_picture", $data) ? $data["campaign_picture"] : NULL)) {
                     $output = json_encode(array("message" => CAMPAIGN_SUCCESS));
                     $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 } else {
                     $output = json_encode(array("error" => CAMPAIGN_FAIL));
                     $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 500'));
-                };
-;
+                }
+                ;
             }
+            $output = json_encode(array("error" => CAMPAIGN_FAIL));
+            $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
         }
 
     }

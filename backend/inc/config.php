@@ -13,7 +13,7 @@ define('EMAIL_EXISTS', "Email already exists");
 define('EMPTY_FIRSTNAME_ERROR', "Empty firstname");
 define('INVALID_EMAIL', "Invalid email address");
 define('PASSWORD_CHECK_ERROR', "Passwords do not match");
-define('TOKEN_INVALID', "Token do not exist");
+define('TOKEN_INVALID', "Invalid Token");
 define('CAMPAIGN_ID_INVALID', "Campaign ID invalid");
 define('EMPTY_CAMPAIGN_SEARCH', 'Please enter query for campaign name search');
 define('EMPTY_USER_ERROR', 'Invalid User ID');
@@ -21,5 +21,7 @@ define('EMPTY_CTITLE_ERROR', 'Empty Campaign ID');
 define('EMPTY_CDESCRIPTION_ERROR', 'Empty Campaign Description');
 define('CAMPAIGN_SUCCESS', 'Campaign successfully created');
 define('CAMPAIGN_FAIL', 'Could not create campaign');
+define('AUTH_ERROR', 'Authentication failed');
 define('HEADER_MISSING', 'Missing HTTP Headers');
+
 ?>
