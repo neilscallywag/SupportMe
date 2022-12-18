@@ -55,9 +55,6 @@ POST /login
 }
 ```
 
-```http headers
-Device : device_name
-```
 
 ### Response
 ```json
