@@ -33,7 +33,7 @@ class LoginController extends BaseController
         if (empty($data)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-        } else if (!array_key_exists("Device", $headers)) {
+        } else if (!array_key_exists('User-Agent', $headers)) {
             $response = json_encode(array("error" => HEADER_MISSING));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
         } else {

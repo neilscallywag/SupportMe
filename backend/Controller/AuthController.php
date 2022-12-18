@@ -35,7 +35,7 @@ class AuthController extends BaseController
         if (empty($headers)) {
             return false;
 
-        } else if (!array_key_exists("Authorization", $headers) || !array_key_exists("Device", $headers)) {
+        } else if (!array_key_exists("Authorization", $headers) || !array_key_exists("User-Agent", $headers)) {
             $response = json_encode(array("error" => HEADER_MISSING));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
             return false;
@@ -49,7 +49,7 @@ class AuthController extends BaseController
                 $decoded_array = (array) $decoded;
                 $this->JWT = explode(" ", $headers['Authorization'])[1];
                 $this->bearer = explode(" ", $headers['Authorization'])[0];
-                $this->device = $headers['Device'];
+                $this->device = $headers['User-Agent'];
                 $this->user_id = $decoded_array['user_id'];
 
                 // Check if the provided bearer is valid bearer
@@ -67,7 +67,7 @@ class AuthController extends BaseController
                 // Check if the user ID provided in from the token corresponds the the user ID in the session data
                 if (is_array($user_data)) {
 
-                    if ($user_data['user_id'] == $this->user_id && $user_data['device'] == $this->device) {
+                    if ($user_data['user_id'] == $this->user_id && $user_data['User-Agent'] == $this->device) {
                         return true;
                     }
 
