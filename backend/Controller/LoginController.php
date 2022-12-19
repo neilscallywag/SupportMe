@@ -30,6 +30,11 @@ class LoginController extends BaseController
 
     public function Login(string $data, array $headers): void
     {
+        /*
+        Test out contents of headers array
+        $test = json_encode($headers);
+        $this->sendOutput($test, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+        */
         if (empty($data)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
@@ -40,7 +45,7 @@ class LoginController extends BaseController
             $data = json_decode($data);
             $this->email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
             $this->password = $data->password;
-            $this->device = $headers['Device'];
+            $this->device = $headers['User-Agent'];
 
             if (empty($this->email)) {
                 $response = json_encode(array("error" => EMPTY_EMAIL_ERROR));

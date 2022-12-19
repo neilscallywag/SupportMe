@@ -28,7 +28,8 @@ $klein->respond('POST', '/register', function ($request, $response) {
 
 //login
 $klein->respond('POST', '/login', function ($request, $response) {
-    $headers = $request->headers();
+    $iHateKlein = $request->headers();
+    $headers = $iHateKlein->all();
     $json = file_get_contents('php://input');
     $base = new LoginController();
     $base->Login($json, $headers);
@@ -37,18 +38,17 @@ $klein->respond('POST', '/login', function ($request, $response) {
 //fetch campaign
 $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
     #Get all the headers first
-    $headers = $request->headers();
+    $iHateKlein = $request->headers();
+    $headers = $iHateKlein->all();
 
     #if autherisation header exist
-    if (in_array('Authorization', $headers)) {
-        $authToken = $headers['Authorization'];
-        $check = new AuthController();
-        if ($check->CheckGivenToken($authToken)) {
-            $base = new CampaignController();
-            $base->GetByID($request->cid);
-        }
-        ;
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $base = new CampaignController();
+        $base->GetByID($request->cid);
     }
+    ;
+
 
 });
 
@@ -56,19 +56,18 @@ $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
 $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $headers = $request->headers();
+    $iHateKlein = $request->headers();
+    $headers = $iHateKlein->all();
 
     #if autherisation header exist
-    if (in_array('Authorization', $headers)) {
-        $authToken = $headers['Authorization'];
-        $check = new AuthController();
-        if ($check->CheckGivenToken($authToken)) {
-            $base = new CampaignController();
-            $campaign_substr = urldecode($request->str);
-            $base->search_campaign($campaign_substr);
-        }
-        ;
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $base = new CampaignController();
+        $campaign_substr = urldecode($request->str);
+        $base->search_campaign($campaign_substr);
     }
+    ;
+
 
 });
 
@@ -76,19 +75,18 @@ $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $respons
 $klein->respond('POST', '/campaign/create', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $headers = $request->headers();
+    $iHateKlein = $request->headers();
+    $headers = $iHateKlein->all();
 
     #if autherisation header exist
-    if (in_array('Authorization', $headers)) {
-        $authToken = $headers['Authorization'];
-        $check = new AuthController();
-        if ($check->CheckGivenToken($authToken)) {
-            $json = file_get_contents('php://input');
-            $base = new CampaignController();
-            $base->createCampaign($json);
-        }
-        ;
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $json = file_get_contents('php://input');
+        $base = new CampaignController();
+        $base->createCampaign($json);
     }
+    ;
+
 
 });
 
