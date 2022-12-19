@@ -70,18 +70,7 @@ POST /campaign/id/:id
 ```
 
 ### Request
-
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `user_id` |  int | Yes | user id accessing website|
-
-
-```json
-
-{
-    "user_id":1243
-}
-```
+None
 
 ### Response
 ```json
@@ -98,18 +87,7 @@ POST /campaign/search/:query
 ```
 
 ### Request
-
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `user_id` |  int | Yes | user id accessing website|
-
-
-```json
-
-{
-    "user_id":1243
-}
-```
+None
 
 ### Response
 ```json
