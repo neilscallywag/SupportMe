@@ -136,6 +136,40 @@ class CampaignController extends BaseController
         }
 
     }
+
+    /**
+     * This function updates the database record for the given campaign
+     * @author Neil 
+     * 
+     * @param string $campaign_id is the id of the campaign
+     * @param string $data is a JSON string
+     * 
+     * @return void
+     * @return 200 if successfully created a new campaign
+     * @return 400 if missing fields or incorrect length of title or description
+     * @return 500 if database error
+     */
+
+    public function updateCampaign(int $campaign_id, string $data): void
+    {
+    }
+
+    /**
+     * This function takes deletes the given campaign
+     * @author Neil 
+     * 
+     * @param string $campaign_id is the id of the campaign
+     * @param string $data is a JSON string
+     *
+     * @return void
+     * @return 200 if successfully created a new campaign
+     * @return 400 if missing fields or incorrect length of title or description
+     * @return 500 if database error
+     */
+
+    public function deleteCampaign(int $campaign_id, string $data): void
+    {
+    }
 }
 
 ?>
