@@ -18,5 +18,12 @@ class Login
         $DAO = new SessionDAO();
         return boolval($DAO->add_session($user_id, $device, $token, $expires_at) == 1);
     }
+
+    public function checkSession(string $token): bool
+    {
+        $DAO = new SessionDAO();
+        return $DAO->fetch_session($token);
+
+    }
 }
 ?>

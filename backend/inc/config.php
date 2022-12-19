@@ -23,5 +23,7 @@ define('CAMPAIGN_SUCCESS', 'Campaign successfully created');
 define('CAMPAIGN_FAIL', 'Could not create campaign');
 define('AUTH_ERROR', 'Authentication failed');
 define('HEADER_MISSING', 'Missing HTTP Headers');
+define('SESSION_EXISTS_ERROR', 'Session already exists');
+
 
 ?>
