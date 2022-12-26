@@ -46,6 +46,18 @@ class BaseController
         echo $data;
         exit;
     }
+
+    public function sendMultipleJSON( $return_arr) : void {
+        $return_arr = array_map('json_encode', $return_arr);
+
+        if (!empty($return_arr)) {
+            $response = implode("\r\n", $return_arr) . "\r\n";
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+        } else {
+            $response = json_encode(array("message" => "No result found"));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+        }
+    }
 }
 
 ?>

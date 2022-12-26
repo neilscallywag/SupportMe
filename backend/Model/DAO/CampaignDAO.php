@@ -25,7 +25,7 @@ class CampaignDAO {
     public function search_campaign($campaign_name){
 
         $conn= new ConnectionManager();
-        $pdo = $conn->getConnection(); #important i did not implement exception catch
+        $pdo = $conn->getConnection(); 
     
         $sql = "SELECT starter_id,c_title,c_description,c_picture from campaign where c_title like :cname";
         $stmt = $pdo->prepare($sql);
@@ -58,6 +58,26 @@ class CampaignDAO {
         $pdo = null;
 
         return $rows;
+    }
+
+    public function fetch_user_campaign($user_id){
+
+        $conn= new ConnectionManager();
+        $pdo = $conn->getConnection(); #important i did not implement exception catch
+    
+        $sql = "SELECT c_title,c_description,c_picture from campaign where starter_id= :uid";
+        $stmt = $pdo->prepare($sql);
+        $stmt-> bindParam(':uid',$user_id,PDO::PARAM_INT);
+        $stmt-> execute();
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $result = $stmt->fetchAll();  #shd be one
+
+        $stmt = null;
+        $pdo = null;
+
+        return $result;
     }
 
 }

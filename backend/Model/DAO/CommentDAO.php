@@ -20,12 +20,12 @@ class CommentDAO {  #text can be empty in db
         return $result;
     }
 
-    public function fetch_all_comment($campaign_id){
+    public function fetch_all_comments($campaign_id){
 
         $conn= new ConnectionManager();
         $pdo = $conn->getConnection(); #important i did not implement exception catch
     
-        $sql = "SELECT c.commenter_id,u.firstname,u.lastname,c.comment_text from comment c inner join user u on c.commenter_id=u.user_id where c.campaign_id = :cid";
+        $sql = "SELECT c.commenter_id,u.firstname,u.lastname,c.comment_text, c.reply_id from comment c inner join user u on c.commenter_id=u.user_id where c.campaign_id = :cid";
         $stmt = $pdo->prepare($sql);
         $stmt-> bindParam(':cid',$campaign_id,PDO::PARAM_INT);
         $stmt-> execute();

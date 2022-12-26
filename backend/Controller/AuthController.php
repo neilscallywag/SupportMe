@@ -65,7 +65,6 @@ class AuthController extends BaseController
 ;
 
                 // Check if the provided bearer is valid bearer
-                var_dump($this->bearer);
                 if ($this->bearer != ISSUER) {
                     
                     $response = json_encode(array("error" => TOKEN_INVALID));
@@ -76,12 +75,13 @@ class AuthController extends BaseController
                 // Check if the Session exists in the database. 
                 include __DIR__ . "/../Model/DAO/SessionDAO.php";
                 $DAO = new SessionDAO();
+                $DAO->delete_expired_session();
                 $user_data = $DAO->CheckSessionByJWT($this->JWT);
 
                 // Check if the user ID provided in from the token corresponds the the user ID in the session data
                 if (is_array($user_data)) {
                     if ($user_data['user_id'] == $this->user_id && $user_data['device'] == $this->device) {
-                        return true;
+                        return $this->user_id;
                     } else {
                         $response = json_encode(array("error" => TOKEN_INVALID));
                         $this->sendOutput($response, array('Content-Type: application/json1', 'HTTP/1.1 402 Authentication Error'));

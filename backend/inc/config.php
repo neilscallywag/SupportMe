@@ -25,6 +25,7 @@ define('AUTH_ERROR', 'Authentication failed');
 define('HEADER_MISSING', 'Missing HTTP Headers');
 define('SESSION_EXISTS_ERROR', 'Session already exists');
 define('AUTH_HEADER_INVALID', 'Given authentication header not valid');
+define('PLEDGE_ALREADY', 'USER HAS ALREADY PLEDGED')
 
 
 ?>

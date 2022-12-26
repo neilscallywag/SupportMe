@@ -16,7 +16,7 @@ $klein = new \Klein\Klein();
 
 //index
 $klein->respond('GET', '/?', function ($request, $response) {
-    return "hello world";
+    return "Please use POST method to access this API";
 });
 
 //register
@@ -52,9 +52,7 @@ $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
 });
 
 //search campaign
-$klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) #do you want substr here or in json
-{
-    #Get all the headers first
+$klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) {
     $headers=GetAllHeaders(); 
 
     #if autherisation header exist
@@ -63,14 +61,11 @@ $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $respons
         $base = new CampaignController();
         $campaign_substr = urldecode($request->str);
         $base->search_campaign($campaign_substr);
-    }
-    ;
-
-
+    };
 });
 
 //create campaign
-$klein->respond('POST', '/campaign/create', function ($request, $response) #do you want substr here or in json
+$klein->respond('POST', '/campaign/create', function ($request, $response) 
 {
     #Get all the headers first
     $headers=GetAllHeaders(); 
@@ -87,6 +82,71 @@ $klein->respond('POST', '/campaign/create', function ($request, $response) #do y
 
 });
 
+//fetch campaign by user ID
+$klein->respond('POST', '/user/campaigns', function ($request, $response) {
+    #Get all the headers first
+    $headers=GetAllHeaders();  #Klein bug? doesnt catch authorisation header
+
+    #if authorization header exist
+    $check = new AuthController();
+    if ($user_id = $check->CheckGivenToken($headers)) {
+        $base = new CampaignController();
+        $base->GetByUID($user_id);
+    }
+    ;
+
+
+});
+
+//campaign comments
+$klein->respond('POST', '/campaign/comments/[*:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $base = new CommentController();
+        $base->fetch_comments($request->cid);
+    };
+});
+
+$klein->respond('POST', '/campaign/pledge_count/[*:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $base = new PledgeController();
+        $base->count_pledge($request->cid);
+    };
+});
+
+$klein->respond('POST', '/campaign/pledge_list/[*:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    if ($check->CheckGivenToken($headers)) {
+        $base = new PledgeController();
+        $base->fetch_pledge($request->cid);
+    };
+});
+
+$klein->respond('POST', '/campaign/pledge/[*:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    $json = file_get_contents('php://input');
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new PledgeController();
+        $base->add_pledge($user_id,$request->cid,$json);
+    };
+});
+
+$klein->respond('POST', '/campaign/unpledge/[*:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    $json = file_get_contents('php://input');
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new PledgeController();
+        $base->delete_pledge($user_id,$request->cid);
+    };
+});
+
 $klein->dispatch();
+
 
 ?>
