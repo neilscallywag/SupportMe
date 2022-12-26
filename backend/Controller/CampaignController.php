@@ -7,6 +7,7 @@ class CampaignController extends BaseController
 
     private string $campaign_id;
     private string $campaign_substr;
+    private string $user_id;
 
     /**
      * This function 
@@ -169,6 +170,21 @@ class CampaignController extends BaseController
 
     public function deleteCampaign(int $campaign_id, string $data): void
     {
+    }
+
+    public function getbyUID(int $user_id){
+        if (empty($user_id)) {
+            $response = json_encode(array("error" => EMPTY_JSON));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+        } else {
+            $this->user_id = $user_id;
+
+            include __DIR__ . "/../Model/DAO/CampaignDAO.php";
+            $DAO = new CampaignDAO();
+            $this->sendMultipleJSON( $DAO->fetch_user_campaign($this->user_id));
+
+            ;
+        }
     }
 }
 
