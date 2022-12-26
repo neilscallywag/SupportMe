@@ -16,6 +16,7 @@ class CampaignController extends BaseController
     public function GetByID($campaign_id)
     {
         if (empty($campaign_id)) {
+            
             $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
@@ -26,8 +27,8 @@ class CampaignController extends BaseController
             $DAO = new CampaignDAO();
             $campaign_info = $DAO->fetch_campaign($this->campaign_id);
 
-            if (count($campaign_info) == 1) {
-                $response = json_encode($campaign_info[0]);
+            if ($campaign_info) {
+                $response = json_encode($campaign_info);
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
                 $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
@@ -151,7 +152,7 @@ class CampaignController extends BaseController
      * @return 500 if database error
      */
 
-    public function updateCampaign(int $campaign_id, string $data): void
+    public function updateCampaign(int $campaign_id, int $user_id, string $json): void
     {
     }
 
@@ -160,7 +161,7 @@ class CampaignController extends BaseController
      * @author Neil 
      * 
      * @param string $campaign_id is the id of the campaign
-     * @param string $data is a JSON string
+     * @param string $user_id is the id of the user
      *
      * @return void
      * @return 200 if successfully created a new campaign
@@ -168,8 +169,26 @@ class CampaignController extends BaseController
      * @return 500 if database error
      */
 
-    public function deleteCampaign(int $campaign_id, string $data): void
+    public function deleteCampaign(int $user_id, int $campaign_id)
     {
+        if (empty($user_id) || empty($campaign_id)) {
+            $response = json_encode(array("error" => EMPTY_JSON));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+        } else {
+            $this->user_id = $user_id;
+            $this->campaign_id = $campaign_id;
+
+            include __DIR__ . "/../Model/DAO/CampaignDAO.php";
+            $DAO = new CampaignDAO();
+            if ($DAO->fetch_campaign($this->campaign_id)['user_id']==$this->user_id) {
+                $DAO->delete_campaign($campaign_id);
+                $response = json_encode(array("message" => "Campaign successful deleted"));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
+            } else {
+                $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
+            }
+        }
     }
 
     public function getbyUID(int $user_id){

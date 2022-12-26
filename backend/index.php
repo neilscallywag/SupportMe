@@ -36,7 +36,7 @@ $klein->respond('POST', '/login', function ($request, $response) {
 });
 
 //fetch campaign
-$klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
+$klein->respond('POST', '/campaign/id/[:cid]', function ($request, $response) {
     #Get all the headers first
     $headers=GetAllHeaders();  #Klein bug? doesnt catch authorisation header
 
@@ -82,6 +82,23 @@ $klein->respond('POST', '/campaign/create', function ($request, $response)
 
 });
 
+$klein->respond('POST', '/campaign/delete/[*:cid]', function ($request, $response) 
+{
+    #Get all the headers first
+    $headers=GetAllHeaders(); 
+
+    #if autherisation header exist
+    $check = new AuthController();
+    if ($user_id=$check->CheckGivenToken($headers)) {
+
+        $base = new CampaignController();
+        $base->deleteCampaign($user_id,$request->cid);
+    }
+    ;
+
+
+});
+
 //fetch campaign by user ID
 $klein->respond('POST', '/user/campaigns', function ($request, $response) {
     #Get all the headers first
@@ -105,6 +122,25 @@ $klein->respond('POST', '/campaign/comments/[*:cid]', function ($request, $respo
     if ($check->CheckGivenToken($headers)) {
         $base = new CommentController();
         $base->fetch_comments($request->cid);
+    };
+});
+
+$klein->respond('POST', '/campaign/add_comment/[i:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    $json = file_get_contents('php://input');
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new CommentController();
+        $base->add_comment($user_id,$request->cid,$json);
+    };
+});
+
+$klein->respond('POST', '/campaign/delete_comment/[i:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new CommentController();
+        $base->delete_comment($user_id,$request->cid);
     };
 });
 

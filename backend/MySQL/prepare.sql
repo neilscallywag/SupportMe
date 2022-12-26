@@ -27,6 +27,7 @@ create table campaign (
 );
 
 create table comment (
+    comment_id int auto_increment not null,
     commenter_id int not null,
     campaign_id int not null,
 
@@ -37,10 +38,10 @@ create table comment (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    constraint commentPK primary key (createdAt, commenter_id, campaign_id),
+    constraint commentPK primary key (comment_id),
     constraint commentFK1 foreign key (commenter_id) references user(user_id),
     constraint commentFK2 foreign key (campaign_id) references campaign(campaign_id),
-    constraint commentFK3 foreign key (reply_id) references campaign(campaign_id)
+    constraint commentFK3 foreign key (reply_id) references comment(comment_id)
 );
 
 create table pledgers (

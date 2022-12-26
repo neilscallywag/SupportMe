@@ -7,7 +7,7 @@ class CampaignDAO {
         $conn= new ConnectionManager();
         $pdo = $conn->getConnection(); #important i did not implement exception catch
     
-        $sql = "SELECT starter_id,c_title,c_description,c_picture from campaign where campaign_id= :cid";
+        $sql = "SELECT starter_id as user_id,c_title,c_description,c_picture from campaign where campaign_id= :cid";
         $stmt = $pdo->prepare($sql);
         $stmt-> bindParam(':cid',$campaign_id,PDO::PARAM_INT);
         $stmt-> execute();
@@ -19,7 +19,7 @@ class CampaignDAO {
         $stmt = null;
         $pdo = null;
 
-        return $result;
+        return boolval($result) ? $result[0] : false;
     }
 
     public function search_campaign($campaign_name){
@@ -58,6 +58,23 @@ class CampaignDAO {
         $pdo = null;
 
         return $rows;
+    }
+
+    public function delete_campaign($campaign_id){   
+        $conn= new ConnectionManager();
+        $pdo = $conn->getConnection(); #important i did not implement exception catch
+    
+        $sql = "delete from campaign where campaign_id = :cid";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':cid',$campaign_id,PDO::PARAM_INT);
+        $stmt-> execute();
+
+        $rows = $stmt->rowCount();
+
+        $stmt = null;
+        $pdo = null;
+
+        return boolval($rows);
     }
 
     public function fetch_user_campaign($user_id){

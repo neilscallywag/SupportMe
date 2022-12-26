@@ -153,14 +153,14 @@ POST /campaign/create
     1. Pledge(pledgerID,campaignID)
     2. Unpledge(PledgerID,CampaignID)
 - [ ] Add/Delete/Edit Comment on campaign
-   1. AddComment() 
-   2. DeleteComment
+   1. AddComment() - done
+   2. DeleteComment - done
    3. EditComment
 - [x] Create SupportMe Campaign
     1. ValidateFields() (not yet check character number shd be easy)
 - [ ] Create/Delete SupportMe Campaign
     1. AddCampaign() - done
-    1. DeleteCampaign()
+    1. DeleteCampaign() - done
 - [x] Search for Campaign
     1. By ID
     2. By Name (simple search with wild card)
