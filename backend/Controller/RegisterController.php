@@ -68,7 +68,7 @@ class RegisterController extends BaseController
                 $create = new Register();
                 $response = $create->create($this->firstname, $this->lastname, $this->email, $this->password);
 
-                if (array_key_exists("error", json_decode($response))) {
+                if (array_key_exists("error", json_decode($response, true))) {
                     $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 500'));
                 } else {
                     $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));

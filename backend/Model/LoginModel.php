@@ -16,13 +16,18 @@ class Login
     public function createSession(int $user_id, string $device, string $token, int $issued_at, string $expires_at): bool
     {
         $DAO = new SessionDAO();
-        return boolval($DAO->add_session($user_id, $device, $token, $expires_at) == 1);
+        $DAO->delete_expired_session();
+        if (!$DAO->CheckSessionByUID($user_id,$device)){
+            $DAO->add_session($user_id,$device,$token,$expires_at);
+            return true;
+        }
+        return false;
     }
 
-    public function checkSession(string $token): bool
+    public function  CheckSessionByUID(int $user_id, string $device)
     {
         $DAO = new SessionDAO();
-        return $DAO->fetch_session($token);
+        return $DAO-> CheckSessionByUID($user_id,$device);
 
     }
 }

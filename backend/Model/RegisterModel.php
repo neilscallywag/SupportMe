@@ -24,7 +24,7 @@ class Register
         }
         ;
 
-        $firstname = htmlspecialchars(strip_tags($firstname)); #qn by joshua whts the pt of html special chars
+        $firstname = htmlspecialchars(strip_tags($firstname));
         $lastname = htmlspecialchars(strip_tags($lastname));
         $email = htmlspecialchars(strip_tags($email));
         $password = htmlspecialchars(strip_tags($password));

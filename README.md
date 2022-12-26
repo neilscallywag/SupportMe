@@ -183,7 +183,7 @@ composer install
 
 # Testing Commands
 ```bash
-curl -i  -H "Device: Chrome" -d "{ \"email\":\"mainuser@lol.com\",\"password\":1234 }" -X POST localhost/login
+curl -i  -H "User-Agent: Chrome" -d "{ \"email\":\"mainuser@lol.com\",\"password\":1234 }" -X POST localhost/login
 ```
 
 ```bash
@@ -191,13 +191,13 @@ curl -i -X POST -d "{ \"firstname\":\"sunset boulevard\",\"lastname\":\"test\",\
 ```
 
 ```bash
-curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
+curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMjEzNzMsImV4cCI6MTY3MjAyNDk3MywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.ZFpeiR0bDMpzhNkxmfPl142I2vSxG_Yp5XX7baoN130" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
 ```
 
 ```bash
-curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
+curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMjEzNzMsImV4cCI6MTY3MjAyNDk3MywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.ZFpeiR0bDMpzhNkxmfPl142I2vSxG_Yp5XX7baoN130" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
 ```
 
 ```bash
-curl -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzEyODI2MjMsImV4cCI6MTY3MTI4NjIyMywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo2fX0.pb8fRwviNAVVqeyEa9xuNIjTk5nADpvcAC_bOqdODhk" -H "Device: Chrome" -d "{\"user_id\":6, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
+curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMjEzNzMsImV4cCI6MTY3MjAyNDk3MywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.ZFpeiR0bDMpzhNkxmfPl142I2vSxG_Yp5XX7baoN130" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
 ```

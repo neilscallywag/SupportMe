@@ -67,7 +67,7 @@ class LoginController extends BaseController
 
                 if (gettype($response) == "array") {
                     // Do not proceed if the session does exist 
-                    if ($login->checkSession($token)) {
+                    if ($login->checkSessionbyUID($response['user_id'],$this->device)) {
                         $response = json_encode(array("error" => SESSION_EXISTS_ERROR));
                         $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
                     } else {

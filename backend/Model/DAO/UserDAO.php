@@ -67,7 +67,7 @@ class UserDAO
     {
 
         $conn = new ConnectionManager();
-        $pdo = $conn->getConnection(); #important i did not implement exception catch
+        $pdo = $conn->getConnection();
 
         $sql = "SELECT firstname,lastname,user_id,pw_hash, email from user where email = :email";
         $stmt = $pdo->prepare($sql);
