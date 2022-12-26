@@ -38,10 +38,9 @@ $klein->respond('POST', '/login', function ($request, $response) {
 //fetch campaign
 $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
     #Get all the headers first
-    $iHateKlein = $request->headers();
-    $headers = $iHateKlein->all();
+    $headers=GetAllHeaders();  #Klein bug? doesnt catch authorisation header
 
-    #if autherisation header exist
+    #if authorization header exist
     $check = new AuthController();
     if ($check->CheckGivenToken($headers)) {
         $base = new CampaignController();
@@ -56,8 +55,7 @@ $klein->respond('POST', '/campaign/id/[i:cid]', function ($request, $response) {
 $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $iHateKlein = $request->headers();
-    $headers = $iHateKlein->all();
+    $headers=GetAllHeaders(); 
 
     #if autherisation header exist
     $check = new AuthController();
@@ -75,8 +73,7 @@ $klein->respond('POST', '/campaign/search/[*:str]', function ($request, $respons
 $klein->respond('POST', '/campaign/create', function ($request, $response) #do you want substr here or in json
 {
     #Get all the headers first
-    $iHateKlein = $request->headers();
-    $headers = $iHateKlein->all();
+    $headers=GetAllHeaders(); 
 
     #if autherisation header exist
     $check = new AuthController();
