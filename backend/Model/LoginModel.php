@@ -17,17 +17,17 @@ class Login
     {
         $DAO = new SessionDAO();
         $DAO->delete_expired_session();
-        if (!$DAO->CheckSessionByUID($user_id,$device)){
-            $DAO->add_session($user_id,$device,$token,$expires_at);
+        if (!$DAO->CheckSessionByUID($user_id, $device)) {
+            $DAO->add_session($user_id, $device, $token, $expires_at);
             return true;
         }
         return false;
     }
 
-    public function  CheckSessionByUID(int $user_id, string $device)
+    public function CheckSessionByUID(int $user_id, string $device)
     {
         $DAO = new SessionDAO();
-        return $DAO-> CheckSessionByUID($user_id,$device);
+        return $DAO->CheckSessionByUID($user_id, $device);
 
     }
 }

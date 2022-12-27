@@ -15,6 +15,7 @@ define('INVALID_EMAIL', "Invalid email address");
 define('PASSWORD_CHECK_ERROR', "Passwords do not match");
 define('TOKEN_INVALID', "Invalid Token");
 define('CAMPAIGN_ID_INVALID', "Campaign ID invalid");
+define('CAMPAIGN_NOT_FOUND', "No Such Campaign");
 define('EMPTY_CAMPAIGN_SEARCH', 'Please enter query for campaign name search');
 define('EMPTY_USER_ERROR', 'Invalid User ID');
 define('EMPTY_CTITLE_ERROR', 'Empty Campaign ID');

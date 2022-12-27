@@ -10,13 +10,20 @@ class CampaignController extends BaseController
     private string $user_id;
 
     /**
-     * This function 
+     * This function takes in an integer campaign id and returns the campaign associated with the campaign id.
      * @author Joshua 
+     * 
+     * @param int $campaign_id is identifier of the campaign
+     * 
+     * @return void
+     * @return 200 if successfully created a new campaign
+     * @return 400 if malformed parameter
+     * @return 204 if the campaign not found
      */
     public function GetByID($campaign_id)
     {
         if (empty($campaign_id)) {
-            
+
             $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
@@ -31,20 +38,26 @@ class CampaignController extends BaseController
                 $response = json_encode($campaign_info);
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
-                $response = json_encode(array("error" => CAMPAIGN_ID_INVALID));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+                $response = json_encode(array("error" => CAMPAIGN_NOT_FOUND));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 204 Bad Request'));
             }
             ;
-
 
         }
 
     }
 
     /**
-     * This function 
-     * @author Joshua
+     * This function takes in an encoded text string and searches for a campaign based on the string
+     * @author Joshua 
      * 
+     * @param string $campaign_substr is the url encoded text of the campaign
+     * 
+     * 
+     * @return void
+     * @return 200 if successfully created a new campaign
+     * @return 400 if malformed string
+     * @return 204 if the campaign not found
      */
     public function search_campaign($campaign_substr)
     {
@@ -169,7 +182,7 @@ class CampaignController extends BaseController
      * @return 500 if database error
      */
 
-    public function deleteCampaign(int $user_id, int $campaign_id)
+    public function deleteCampaign(int $user_id, int $campaign_id): void
     {
         if (empty($user_id) || empty($campaign_id)) {
             $response = json_encode(array("error" => EMPTY_JSON));
@@ -180,7 +193,7 @@ class CampaignController extends BaseController
 
             include __DIR__ . "/../Model/DAO/CampaignDAO.php";
             $DAO = new CampaignDAO();
-            if ($DAO->fetch_campaign($this->campaign_id)['user_id']==$this->user_id) {
+            if ($DAO->fetch_campaign($this->campaign_id)['user_id'] == $this->user_id) {
                 $DAO->delete_campaign($campaign_id);
                 $response = json_encode(array("message" => "Campaign successful deleted"));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
@@ -191,7 +204,20 @@ class CampaignController extends BaseController
         }
     }
 
-    public function getbyUID(int $user_id){
+
+    /**
+     * This function takes the given user ID and returns the list of campaigns for that user
+     * @author Joshua 
+     * 
+     * @param string $user_id is the id of the user
+     *
+     * @return void
+     * @return 200 if successfully returned a JSON string
+     * @return 400 if missing user id
+     * @return 500 if database error
+     */
+    public function getbyUID(int $user_id): void
+    {
         if (empty($user_id)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
@@ -200,7 +226,7 @@ class CampaignController extends BaseController
 
             include __DIR__ . "/../Model/DAO/CampaignDAO.php";
             $DAO = new CampaignDAO();
-            $this->sendMultipleJSON( $DAO->fetch_user_campaign($this->user_id));
+            $this->sendMultipleJSON($DAO->fetch_user_campaign($this->user_id));
 
             ;
         }

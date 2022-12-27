@@ -74,7 +74,7 @@ class SessionDAO
      * @author Neil 
      * 
      * @param string $user_id is the user identifier
-     * @param array $device is the device identifier
+     * @param string $device is the device identifier
      * 
      * @return bool
      */
