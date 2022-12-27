@@ -27,9 +27,9 @@ define('HEADER_MISSING', 'Missing HTTP Headers');
 define('SESSION_EXISTS_ERROR', 'Session already exists');
 define('AUTH_HEADER_INVALID', 'Given authentication header not valid');
 define('PLEDGE_ALREADY', 'User has already pledge');
-define('MISMATCH_USER_CAMPAIGN', 'User and campaign mismatch or non-existent');
 define('EMPTY_COMMENT', 'Comment text is missing');
 define('MISMATCH_REPLY_CAMPAIGN', 'Comment reply and campaign mismatch or non-existent');
 define('MISMATCH_USER_COMMENT', 'Comment created by user does not exist');
+define('MISMATCH_USER_CAMPAIGN', 'Campaign was not created by user/ is non-existent');
 
 ?>

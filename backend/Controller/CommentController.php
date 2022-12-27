@@ -39,6 +39,53 @@ class CommentController extends BaseController
      * This function adds a new comment to the associated campaign ID
      * @author Joshua
      * 
+     * @param int $comment_id
+     * @param int $user_id
+     * @param string $json is the comment text.  may include reply_id
+     * 
+     * @return 400 if malformed request or missing params
+     * @return 200 if comment successfully changed.
+     * 
+     */
+    public function edit_comment($user_id, $comment_id, $json)
+    {
+        if (empty($comment_id) || empty($user_id) || empty($json)) {
+            $response = json_encode(array("error" => EMPTY_JSON));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+            return false;
+        } else {
+            $this->user_id = $user_id;
+            $this->comment_id = $comment_id;
+            $json = json_decode($json, true);
+
+            if (!isset($json['comment_text'])) {
+                $response = json_encode(array("error" => EMPTY_COMMENT));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+                return false;
+            }
+            ;
+
+            include __DIR__ . "/../Model/DAO/CommentDAO.php";
+            $DAO = new CommentDAO();
+
+            if (!$DAO->check_comment_user($this->user_id,$this->comment_id)){
+                $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+                return false;
+            };
+
+            if ($DAO->edit_comment($this->comment_id, $json['comment_text'])) {
+                $response = json_encode(array("message" => "Successfully changed comment"));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+            }
+
+        }
+    }
+
+        /**
+     * This function edits an existing comment to the associated campaign ID
+     * @author Joshua
+     * 
      * @param int $campaign_id
      * @param int $user_id
      * @param string $json is the comment text. 
@@ -85,6 +132,7 @@ class CommentController extends BaseController
 
         }
     }
+
 
 
     /**

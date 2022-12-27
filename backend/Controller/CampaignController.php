@@ -146,11 +146,84 @@ class CampaignController extends BaseController
                 }
                 ;
             }
-            $output = json_encode(array("error" => CAMPAIGN_FAIL));
-            $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+           
         }
 
     }
+
+    /**
+     * This function takes in a JSON string and edits a campaign if the user matches.
+     * @author Joshua
+     * 
+     * @param string $data is a JSON string (converted inside)
+     * 
+     * @var int data["user_id"]                 : is the user's ID
+     * @var string data["campaign_title"]       : is the campaign title. Limit 100 words
+     * @var string data["campaign_description"] : is the campaign description. Limit 500 words
+     * @var string data["campaign_picture"]     : is an optional image Base64 string.
+     * 
+     * @return void
+     * @return 200 if successfully edited a new campaign
+     * @return 400 if missing fields or incorrect length of title or description
+     * @return 500 if database error
+     */
+
+     public function edit_campaign($user_id,$campaign_id,string $data): void
+ 
+     {
+         if (empty($data)) {
+             $response = json_encode(array("error" => EMPTY_JSON));
+             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+ 
+         } else {
+             $data = json_decode($data, true);
+             $this->user_id=$user_id;
+             $this->campaign_id=$campaign_id;
+             $anyedit=false;
+
+             require_once __DIR__ . '\..\Model\DAO\CampaignDAO.php';
+             $DAO = new CampaignDAO();
+
+             if ($DAO->check_user_campaign($this->user_id,$this->campaign_id)) {
+            /*
+             {
+             user_id:,
+             campaign_title:
+             campaign_description:
+             campaign_picture:
+             }
+             */
+                if (isset($data['campaign_title'])){
+                    $DAO->edit_campaign_title($this->campaign_id,$data['campaign_title']);
+                    $anyedit=true;
+                } ;
+                
+                if (isset($data['campaign_description'])) {
+                    $DAO->edit_campaign_description($this->campaign_id,$data['campaign_description']);
+                    $anyedit=true;
+                };
+                if (isset($data['campaign_picture'])) {
+                    $DAO->edit_campaign_picture($this->campaign_id,$data['campaign_picture']);
+                    $anyedit=true;
+                };
+
+
+                if ($anyedit){
+                    $output = json_encode(array("message" => "campaign successfully edited"));
+                    $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                } else {
+                    $output = json_encode(array("message" => "no change committed"));
+                    $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                }
+             } else {
+                $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
+             }
+
+
+         }
+ 
+     }
 
     /**
      * This function updates the database record for the given campaign

@@ -152,15 +152,16 @@ POST /campaign/create
 - [x] Unledge Support for Campaign
     1. Pledge(pledgerID,campaignID)
     2. Unpledge(PledgerID,CampaignID)
-- [ ] Add/Delete/Edit Comment on campaign
+- [x] Add/Delete/Edit Comment on campaign
    1. AddComment() - done
    2. DeleteComment - done
-   3. EditComment
+   3. EditComment - done
 - [x] Create SupportMe Campaign
     1. ValidateFields() (not yet check character number shd be easy)
-- [ ] Create/Delete SupportMe Campaign
+- [x] Create/Delete/Edit SupportMe Campaign
     1. AddCampaign() - done
-    1. DeleteCampaign() - done
+    2. DeleteCampaign() - done
+    3. EditCampaign() - done
 - [x] Search for Campaign
     1. By ID
     2. By Name (simple search with wild card)
@@ -222,4 +223,12 @@ curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiO
 #note user id is not provided in the json
 ```bash
 curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"pledge_reason\": \"i love you\" }" -i -X POST  localhost/campaign/pledge/1
+```
+
+```bash
+curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIxNTIxMjcsImV4cCI6MTY3MjE1NTcyNywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.iwHTEDubSWB9EjCMDfsHfQwfuaOtk9AzZVIf8_XRWW8" -H "User-Agent: Chrome" -d "{ \"comment_text\": \"i love you\" }" -i -X POST  localhost/campaign/edit_comment/1
+```
+
+```bash
+curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIxNTIxMjcsImV4cCI6MTY3MjE1NTcyNywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.iwHTEDubSWB9EjCMDfsHfQwfuaOtk9AzZVIf8_XRWW8" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/edit/1
 ```
