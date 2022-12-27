@@ -20,6 +20,26 @@ class CommentDAO {  #text can be empty in db
         return $result;
     }
 
+    public function edit_comment($comment_id,$comment_text){
+
+        $conn= new ConnectionManager();
+        $pdo = $conn->getConnection(); #important i did not implement exception catch
+    
+        $sql = "update comment set comment_text= :cotxt where comment_id= :coid";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":cotxt",$comment_text);
+        $stmt->bindParam(":coid",$comment_id,PDO::PARAM_INT);
+        $stmt-> execute();
+
+
+        $result = $stmt->rowCount(); 
+
+        $stmt = null;
+        $pdo = null;
+
+        return $result;
+    }
+
     public function delete_comment($commenter_id,$comment_id ){
 
         $conn= new ConnectionManager();

@@ -82,7 +82,7 @@ $klein->respond('POST', '/campaign/create', function ($request, $response)
 
 });
 
-$klein->respond('POST', '/campaign/delete/[*:cid]', function ($request, $response) 
+$klein->respond('POST', '/campaign/delete/[i:cid]', function ($request, $response) 
 {
     #Get all the headers first
     $headers=GetAllHeaders(); 
@@ -97,6 +97,17 @@ $klein->respond('POST', '/campaign/delete/[*:cid]', function ($request, $respons
     ;
 
 
+});
+
+$klein->respond('POST', '/campaign/edit/[i:cid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    $json = file_get_contents('php://input');
+
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new CampaignController();
+        $base->edit_campaign($user_id,$request->cid,$json);
+    };
 });
 
 //fetch campaign by user ID
@@ -116,7 +127,7 @@ $klein->respond('POST', '/user/campaigns', function ($request, $response) {
 });
 
 //campaign comments
-$klein->respond('POST', '/campaign/comments/[*:cid]', function ($request, $response) {
+$klein->respond('POST', '/campaign/comments/[i:cid]', function ($request, $response) {
     $headers=GetAllHeaders(); 
     $check = new AuthController();
     if ($check->CheckGivenToken($headers)) {
@@ -132,6 +143,17 @@ $klein->respond('POST', '/campaign/add_comment/[i:cid]', function ($request, $re
     if ($user_id=$check->CheckGivenToken($headers)) {
         $base = new CommentController();
         $base->add_comment($user_id,$request->cid,$json);
+    };
+});
+
+$klein->respond('POST', '/campaign/edit_comment/[i:coid]', function ($request, $response) {
+    $headers=GetAllHeaders(); 
+    $check = new AuthController();
+    $json = file_get_contents('php://input');
+
+    if ($user_id=$check->CheckGivenToken($headers)) {
+        $base = new CommentController();
+        $base->edit_comment($user_id,$request->coid,$json);
     };
 });
 
