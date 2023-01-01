@@ -64,40 +64,6 @@ POST /login
 }
 ```
 
-## 3. Fetch campaign by campaign id
-```API
-POST /campaign/id/:id
-```
-
-### Request
-None
-
-### Response
-```json
-{
-"starter_id":123,
-"c_title":"title_here",
-"c_description":"description here",
-"c_picture":"picture in base64 string"
-}
-```
-## 3. Search campaign using query
-```API
-POST /campaign/search/:query
-```
-
-### Request
-None
-
-### Response
-```json
-{
-"starter_id":123,
-"c_title":"title_here",
-"c_description":"description here",
-"c_picture":"picture in base64 string"
-}
-```
 
 ## 3. Create campaign
 ```API
@@ -130,41 +96,81 @@ POST /campaign/create
 "message":"Campaign successfully created",
 }
 ```
-# To Do List
-- [x] Registration Controller
-- [x] Login Controller
-- [x] Authentication System using JWT
-- [x] Obtain Device header
-- [x] Database DAO
-- [x] Create Custom Router Class
-- [x] Account for malformed json type i.e missing email and password or other keys for register and login controllers
-- [x] authenticate does not differentiate no user/wrong pass
-- [x] consider what if client enters data w/not matching id
 
-- [x] Self User profile
-    1. GetCampaigns() - done
-    2. GetUserInfo() - skip for now (only password and email is available to fetch)
-- [x] Campaign Page
-    1. GetCampaignInfo() - done
-    2. GetComments() - done
-    3. GetPledgesCount() - done
-    4. GetPledgesList() - done
-- [x] Unledge Support for Campaign
-    1. Pledge(pledgerID,campaignID)
-    2. Unpledge(PledgerID,CampaignID)
-- [x] Add/Delete/Edit Comment on campaign
-   1. AddComment() - done
-   2. DeleteComment - done
-   3. EditComment - done
-- [x] Create SupportMe Campaign
-    1. ValidateFields() (not yet check character number shd be easy)
-- [x] Create/Delete/Edit SupportMe Campaign
-    1. AddCampaign() - done
-    2. DeleteCampaign() - done
-    3. EditCampaign() - done
-- [x] Search for Campaign
-    1. By ID
-    2. By Name (simple search with wild card)
+
+##  4. Fetch Campaign 
+
+```API
+POST /campaign/id/[:cid]
+```
+
+### Request
+
+Authorisation Header Required 
+
+| Attribute  |      Type     |  Required |  Description |
+|:----------:|:-------------:|:------:|:------:|
+| `id` |  Int  | Yes | Campaign ID |
+
+
+### Response - Success 200
+```json
+
+{
+"user_id":"",
+"c_title":"",
+"c_description":"",
+"c_picture":"",
+"updatedAt":""
+
+}
+
+
+```
+### Response - Fail 204
+```json
+
+{
+"error":"No Such Campaign",
+
+}
+```
+
+##  5. Search Campaign 
+
+```API
+GET /campaign/search/[*:str]
+```
+
+### Request
+
+Authorisation Header Required 
+
+| Attribute  |      Type     |  Required |  Description |
+|:----------:|:-------------:|:------:|:------:|
+| `str` |  string  | Yes | String mathing campaign name |
+
+
+### Response - Success 200
+```json
+
+{
+"user_id":"",
+"c_title":"",
+"c_description":"",
+"c_picture":"",
+"updatedAt":""
+
+}
+```
+### Response - Fail 200
+```json
+
+{
+"message":"No Campaign Found",
+
+}
+```
 
 
 
