@@ -20,11 +20,19 @@ A smaller clone of change.org for learning purposes
   - [5. Search Campaign](#5-search-campaign)
     - [Request](#request-4)
     - [Response - Success 200](#response---success-200-1)
-    - [Response - Fail 200](#response---fail-200)
+    - [Response - Fail 204](#response---fail-204-1)
   - [6. Delete Campaign](#6-delete-campaign)
     - [Request](#request-5)
     - [Response - Success 200](#response---success-200-2)
     - [Response - Fail 401](#response---fail-401)
+  - [7. Edit Campaign](#7-edit-campaign)
+    - [Request](#request-6)
+    - [Response - Success 200](#response---success-200-3)
+    - [Response - Fail 400](#response---fail-400)
+  - [8. Fetch Campaigns by user](#8-fetch-campaigns-by-user)
+    - [Request](#request-7)
+    - [Response - Success 200](#response---success-200-4)
+    - [Response - Fail 204](#response---fail-204-2)
 - [Installation](#installation)
 - [Database Entity Relationship Schema](#database-entity-relationship-schema)
 - [Testing Commands](#testing-commands)
@@ -182,7 +190,7 @@ Authorisation Header Required
 }
 ```
 
-### Response - Fail 200
+### Response - Fail 204
 
 ```json
 {
@@ -217,6 +225,79 @@ Authorisation Header Required
 ```json
 {
   "error": "Campaign was not created by user/ is non-existent"
+}
+```
+
+## 7. Edit Campaign
+
+```API
+POST /campaign/edit/[i:cid]
+```
+
+### Request
+
+Authorisation Header Required
+
+|       Attribute        | Type | Required |        Description        |
+| :--------------------: | :--: | :------: | :-----------------------: |
+|         `cid`          | int  |   Yes    |    Campaign Identifier    |
+|       `user_id`        | int  |   Yes    | user id accessing website |
+|    `campaign_title`    | str  |   Yes    |     Title of campaign     |
+| `campaign_description` | str  |   Yes    |  Description of campaign  |
+|   `campaign_picture`   | str  |    No    | Picture encoded in base64 |
+
+```json
+{
+  "user_id": 1243,
+  "campaign_title": "title_here",
+  "campaign_description": "description here",
+  "campaign_picture": "picture in base64 string"
+}
+```
+
+### Response - Success 200
+
+```json
+{
+  "message": "campaign successfully edited"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": "Campaign was not created by user/ is non-existent"
+}
+```
+
+## 8. Fetch Campaigns by user
+
+```API
+POST /user/campaigns
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+### Response - Success 200
+
+```json
+{
+  "user_id": "",
+  "c_title": "",
+  "c_description": "",
+  "c_picture": "",
+  "updatedAt": ""
+}
+```
+
+### Response - Fail 204
+
+```json
+{
+  "message": "No Campaign Found"
 }
 ```
 
