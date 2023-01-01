@@ -127,7 +127,7 @@ $klein->respond('POST', '/user/campaigns', function ($request, $response) {
 });
 
 //campaign comments
-$klein->respond('POST', '/campaign/comments/[i:cid]', function ($request, $response) {
+$klein->respond('POST', '/campaign/[i:cid]/comments', function ($request, $response) {
     $headers = GetAllHeaders();
     $check = new AuthController();
     if ($check->CheckGivenToken($headers)) {
@@ -137,7 +137,7 @@ $klein->respond('POST', '/campaign/comments/[i:cid]', function ($request, $respo
     ;
 });
 
-$klein->respond('POST', '/campaign/add_comment/[i:cid]', function ($request, $response) {
+$klein->respond('POST', '/campaign/[i:cid]/add_comment', function ($request, $response) {
     $headers = GetAllHeaders();
     $check = new AuthController();
     $json = file_get_contents('php://input');

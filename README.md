@@ -33,6 +33,10 @@ A smaller clone of change.org for learning purposes
     - [Request](#request-7)
     - [Response - Success 200](#response---success-200-4)
     - [Response - Fail 204](#response---fail-204-2)
+  - [9. Add Comments](#9-add-comments)
+    - [Request](#request-8)
+    - [Response - Success 200](#response---success-200-5)
+    - [Response - Fail 400](#response---fail-400-1)
 - [Installation](#installation)
 - [Database Entity Relationship Schema](#database-entity-relationship-schema)
 - [Testing Commands](#testing-commands)
@@ -298,6 +302,37 @@ Authorisation Header Required from which the user id is extracted
 ```json
 {
   "message": "No Campaign Found"
+}
+```
+
+## 9. Add Comments
+
+```API
+POST /campaign/[i:cid]/add_comment
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute    | Type | Required |     Description     |
+| :------------: | :--: | :------: | :-----------------: |
+|     `cid`      | int  |   Yes    | Campaign Identifier |
+| `comment_text` | str  |   Yes    |    Comment Text     |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Successfully added comment"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
 }
 ```
 
