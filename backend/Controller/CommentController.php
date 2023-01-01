@@ -52,7 +52,7 @@ class CommentController extends BaseController
         if (empty($comment_id) || empty($user_id) || empty($json)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-            return false;
+
         } else {
             $this->user_id = $user_id;
             $this->comment_id = $comment_id;
@@ -61,18 +61,19 @@ class CommentController extends BaseController
             if (!isset($json['comment_text'])) {
                 $response = json_encode(array("error" => EMPTY_COMMENT));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-                return false;
+
             }
             ;
 
             include __DIR__ . "/../Model/DAO/CommentDAO.php";
             $DAO = new CommentDAO();
 
-            if (!$DAO->check_comment_user($this->user_id,$this->comment_id)){
+            if (!$DAO->check_comment_user($this->user_id, $this->comment_id)) {
                 $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-                return false;
-            };
+
+            }
+            ;
 
             if ($DAO->edit_comment($this->comment_id, $json['comment_text'])) {
                 $response = json_encode(array("message" => "Successfully changed comment"));
@@ -82,7 +83,7 @@ class CommentController extends BaseController
         }
     }
 
-        /**
+    /**
      * This function edits an existing comment to the associated campaign ID
      * @author Joshua
      * 
@@ -99,7 +100,7 @@ class CommentController extends BaseController
         if (empty($campaign_id) || empty($user_id) || empty($json)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-            return false;
+
         } else {
             $this->user_id = $user_id;
             $this->campaign_id = $campaign_id;
@@ -108,7 +109,7 @@ class CommentController extends BaseController
             if (!isset($json['comment_text'])) {
                 $response = json_encode(array("error" => EMPTY_COMMENT));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-                return false;
+
             }
             ;
 
@@ -120,7 +121,7 @@ class CommentController extends BaseController
                 if (!$DAO->check_comment_campaign($reply_id, $this->campaign_id)) {
                     $response = json_encode(array("error" => MISMATCH_REPLY_CAMPAIGN));
                     $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-                    return false;
+
                 }
             }
             ;
@@ -151,7 +152,7 @@ class CommentController extends BaseController
         if (empty($comment_id) || empty($user_id)) {
             $response = json_encode(array("error" => EMPTY_JSON));
             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-            return false;
+
         } else {
             $this->user_id = $user_id;
             $this->comment_id = $comment_id;
@@ -163,7 +164,7 @@ class CommentController extends BaseController
             if (!$DAO->check_comment_user($this->user_id, $this->comment_id)) {
                 $response = json_encode(array("error" => MISMATCH_USER_COMMENT));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-                return false;
+
             }
 
 
