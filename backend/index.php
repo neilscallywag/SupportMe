@@ -82,7 +82,7 @@ $klein->respond('POST', '/campaign/create', function ($request, $response) {
 
 });
 
-$klein->respond('POST', '/campaign/delete/[i:cid]', function ($request, $response) {
+$klein->respond('GET', '/campaign/delete/[i:cid]', function ($request, $response) {
     #Get all the headers first
     $headers = GetAllHeaders();
 

@@ -21,6 +21,10 @@ A smaller clone of change.org for learning purposes
     - [Request](#request-4)
     - [Response - Success 200](#response---success-200-1)
     - [Response - Fail 200](#response---fail-200)
+  - [6. Delete Campaign](#6-delete-campaign)
+    - [Request](#request-5)
+    - [Response - Success 200](#response---success-200-2)
+    - [Response - Fail 401](#response---fail-401)
 - [Installation](#installation)
 - [Database Entity Relationship Schema](#database-entity-relationship-schema)
 - [Testing Commands](#testing-commands)
@@ -183,6 +187,36 @@ Authorisation Header Required
 ```json
 {
   "message": "No Campaign Found"
+}
+```
+
+## 6. Delete Campaign
+
+```API
+GET /campaign/delete/[i:cid]
+```
+
+### Request
+
+Authorisation Header Required
+
+| Attribute | Type | Required |     Description     |
+| :-------: | :--: | :------: | :-----------------: |
+|   `cid`   | int  |   Yes    | Campaign Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Campaign successfully deleted"
+}
+```
+
+### Response - Fail 401
+
+```json
+{
+  "error": "Campaign was not created by user/ is non-existent"
 }
 ```
 

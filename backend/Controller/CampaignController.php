@@ -252,7 +252,7 @@ class CampaignController extends BaseController
      * @param string $user_id is the id of the user
      *
      * @return void
-     * @return 200 if successfully created a new campaign
+     * @return 200 if successfully deleted a campaign
      * @return 400 if missing fields or incorrect length of title or description
      * @return 500 if database error
      */
@@ -271,7 +271,7 @@ class CampaignController extends BaseController
             if ($DAO->fetch_campaign($this->campaign_id)['user_id'] == $this->user_id) {
                 $DAO->delete_campaign($campaign_id);
                 $response = json_encode(array("message" => "Campaign successful deleted"));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
                 $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 401 Authentication Error'));
