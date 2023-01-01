@@ -78,8 +78,8 @@ class CampaignController extends BaseController
                 $response = implode('\r\n', $return_arr) . '\r\n';
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
             } else {
-                $response = json_encode(array("message" => "No campaign found"));
-                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
+                $response = json_encode(array("error" => "No campaign found"));
+                $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 204 Bad Request'));
             }
             ;
         }
@@ -146,7 +146,7 @@ class CampaignController extends BaseController
                 }
                 ;
             }
-           
+
         }
 
     }
@@ -168,62 +168,64 @@ class CampaignController extends BaseController
      * @return 500 if database error
      */
 
-     public function edit_campaign($user_id,$campaign_id,string $data): void
- 
-     {
-         if (empty($data)) {
-             $response = json_encode(array("error" => EMPTY_JSON));
-             $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
- 
-         } else {
-             $data = json_decode($data, true);
-             $this->user_id=$user_id;
-             $this->campaign_id=$campaign_id;
-             $anyedit=false;
+    public function edit_campaign($user_id, $campaign_id, string $data): void
+    {
+        if (empty($data)) {
+            $response = json_encode(array("error" => EMPTY_JSON));
+            $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
 
-             require_once __DIR__ . '\..\Model\DAO\CampaignDAO.php';
-             $DAO = new CampaignDAO();
+        } else {
+            $data = json_decode($data, true);
+            $this->user_id = $user_id;
+            $this->campaign_id = $campaign_id;
+            $anyedit = false;
 
-             if ($DAO->check_user_campaign($this->user_id,$this->campaign_id)) {
-            /*
-             {
-             user_id:,
-             campaign_title:
-             campaign_description:
-             campaign_picture:
-             }
-             */
-                if (isset($data['campaign_title'])){
-                    $DAO->edit_campaign_title($this->campaign_id,$data['campaign_title']);
-                    $anyedit=true;
-                } ;
-                
+            require_once __DIR__ . '\..\Model\DAO\CampaignDAO.php';
+            $DAO = new CampaignDAO();
+
+            if ($DAO->check_user_campaign($this->user_id, $this->campaign_id)) {
+                /*
+                {
+                user_id:,
+                campaign_title:
+                campaign_description:
+                campaign_picture:
+                }
+                */
+                if (isset($data['campaign_title'])) {
+                    $DAO->edit_campaign_title($this->campaign_id, $data['campaign_title']);
+                    $anyedit = true;
+                }
+                ;
+
                 if (isset($data['campaign_description'])) {
-                    $DAO->edit_campaign_description($this->campaign_id,$data['campaign_description']);
-                    $anyedit=true;
-                };
+                    $DAO->edit_campaign_description($this->campaign_id, $data['campaign_description']);
+                    $anyedit = true;
+                }
+                ;
                 if (isset($data['campaign_picture'])) {
-                    $DAO->edit_campaign_picture($this->campaign_id,$data['campaign_picture']);
-                    $anyedit=true;
-                };
+                    $DAO->edit_campaign_picture($this->campaign_id, $data['campaign_picture']);
+                    $anyedit = true;
+                }
+                ;
 
 
-                if ($anyedit){
+                if ($anyedit) {
                     $output = json_encode(array("message" => "campaign successfully edited"));
                     $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 } else {
                     $output = json_encode(array("message" => "no change committed"));
                     $this->sendOutput($output, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
                 }
-             } else {
+            } else {
                 $response = json_encode(array("error" => MISMATCH_USER_CAMPAIGN));
                 $this->sendOutput($response, array('Content-Type: application/json', 'HTTP/1.1 400 Bad Request'));
-             }
+            }
 
 
-         }
- 
-     }
+        }
+
+    }
 
     /**
      * This function updates the database record for the given campaign

@@ -52,7 +52,7 @@ $klein->respond('POST', '/campaign/id/[:cid]', function ($request, $response) {
 });
 
 //search campaign
-$klein->respond('POST', '/campaign/search/[*:str]', function ($request, $response) {
+$klein->respond('GET', '/campaign/search/[*:str]', function ($request, $response) {
     $headers = GetAllHeaders();
 
     #if autherisation header exist
