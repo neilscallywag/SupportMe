@@ -1,9 +1,33 @@
 # SupportMe
- A smaller clone of change.org for learning purposes
+
+A smaller clone of change.org for learning purposes
+
+- [SupportMe](#supportme)
+- [Endpoints](#endpoints)
+  - [1. Register](#1-register)
+    - [Request](#request)
+    - [Response](#response)
+  - [2. Login](#2-login)
+    - [Request](#request-1)
+    - [Response](#response-1)
+  - [3. Create campaign](#3-create-campaign)
+    - [Request](#request-2)
+    - [Response](#response-2)
+  - [4. Fetch Campaign](#4-fetch-campaign)
+    - [Request](#request-3)
+    - [Response - Success 200](#response---success-200)
+    - [Response - Fail 204](#response---fail-204)
+  - [5. Search Campaign](#5-search-campaign)
+    - [Request](#request-4)
+    - [Response - Success 200](#response---success-200-1)
+    - [Response - Fail 200](#response---fail-200)
+- [Installation](#installation)
+- [Database Entity Relationship Schema](#database-entity-relationship-schema)
+- [Testing Commands](#testing-commands)
 
 # Endpoints
 
-##  1. Register
+## 1. Register
 
 ```API
 POST /register
@@ -11,94 +35,90 @@ POST /register
 
 ### Request
 
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `firstname` |  String  | Yes | First name |
-| `lastname` |     String    |   No | Last name |
-| `email` |  String  |    Yes | Email |
-| `password` |  String  |    Yes| Password |
+|  Attribute  |  Type  | Required | Description |
+| :---------: | :----: | :------: | :---------: |
+| `firstname` | String |   Yes    | First name  |
+| `lastname`  | String |    No    |  Last name  |
+|   `email`   | String |   Yes    |    Email    |
+| `password`  | String |   Yes    |  Password   |
 
 ```json
-
 {
-"firstname":"sunset boulevard",
-"lastname":"test",
-"email":"mainuser@lol.com",
-"password":1234 
+  "firstname": "sunset boulevard",
+  "lastname": "test",
+  "email": "mainuser@lol.com",
+  "password": 1234
 }
-
 ```
 
 ### Response
+
 ```json
-{"message":"Successfully registered"}
+{ "message": "Successfully registered" }
 ```
 
 ## 2. Login
+
 ```API
 POST /login
 ```
 
 ### Request
 
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `email` |  String  | Yes | Registered email |
-| `password` |     String    |   Yes | Password |
-
+| Attribute  |  Type  | Required |   Description    |
+| :--------: | :----: | :------: | :--------------: |
+|  `email`   | String |   Yes    | Registered email |
+| `password` | String |   Yes    |     Password     |
 
 ```json
-
 {
-"email":"mainuser@lol.com",
-"password":1234 
+  "email": "mainuser@lol.com",
+  "password": 1234
 }
 ```
-
 
 ### Response
+
 ```json
 {
-"message":"Login successful",
-"token":"JWT-TOKEN"
+  "message": "Login successful",
+  "token": "JWT-TOKEN"
 }
 ```
 
-
 ## 3. Create campaign
+
 ```API
 POST /campaign/create
 ```
 
 ### Request
 
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `user_id` |  int | Yes | user id accessing website|
-| `campaign_title` |  str | Yes | Title of campaign|
-| `campaign_description` |  str | Yes | Description of campaign|
-| `campaign_picture` |  str | No | Picture encoded in base64|
-
+|       Attribute        | Type | Required |        Description        |
+| :--------------------: | :--: | :------: | :-----------------------: |
+|       `user_id`        | int  |   Yes    | user id accessing website |
+|    `campaign_title`    | str  |   Yes    |     Title of campaign     |
+| `campaign_description` | str  |   Yes    |  Description of campaign  |
+|   `campaign_picture`   | str  |    No    | Picture encoded in base64 |
 
 ```json
-
 {
-    "user_id":1243,
-    "campaign_title":"title_here",
-    "campaign_description":"description here",
-    "campaign_picture":"picture in base64 string"
+  "user_id": 1243,
+  "campaign_title": "title_here",
+  "campaign_description": "description here",
+  "campaign_picture": "picture in base64 string"
 }
 ```
 
 ### Response
+
 ```json
 {
-"message":"Campaign successfully created",
+  "message": "Campaign successfully created"
 }
 ```
 
-
-##  4. Fetch Campaign 
+## 4. Fetch Campaign
 
 ```API
 POST /campaign/id/[:cid]
@@ -106,37 +126,33 @@ POST /campaign/id/[:cid]
 
 ### Request
 
-Authorisation Header Required 
+Authorisation Header Required
 
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `id` |  Int  | Yes | Campaign ID |
-
+| Attribute | Type | Required | Description |
+| :-------: | :--: | :------: | :---------: |
+|   `id`    | Int  |   Yes    | Campaign ID |
 
 ### Response - Success 200
+
 ```json
-
 {
-"user_id":"",
-"c_title":"",
-"c_description":"",
-"c_picture":"",
-"updatedAt":""
-
+  "user_id": "",
+  "c_title": "",
+  "c_description": "",
+  "c_picture": "",
+  "updatedAt": ""
 }
-
-
 ```
+
 ### Response - Fail 204
+
 ```json
-
 {
-"error":"No Such Campaign",
-
+  "error": "No Such Campaign"
 }
 ```
 
-##  5. Search Campaign 
+## 5. Search Campaign
 
 ```API
 GET /campaign/search/[*:str]
@@ -144,52 +160,49 @@ GET /campaign/search/[*:str]
 
 ### Request
 
-Authorisation Header Required 
+Authorisation Header Required
 
-| Attribute  |      Type     |  Required |  Description |
-|:----------:|:-------------:|:------:|:------:|
-| `str` |  string  | Yes | String mathing campaign name |
-
+| Attribute |  Type  | Required |         Description          |
+| :-------: | :----: | :------: | :--------------------------: |
+|   `str`   | string |   Yes    | String mathing campaign name |
 
 ### Response - Success 200
+
 ```json
-
 {
-"user_id":"",
-"c_title":"",
-"c_description":"",
-"c_picture":"",
-"updatedAt":""
-
+  "user_id": "",
+  "c_title": "",
+  "c_description": "",
+  "c_picture": "",
+  "updatedAt": ""
 }
 ```
+
 ### Response - Fail 200
+
 ```json
-
 {
-"message":"No Campaign Found",
-
+  "message": "No Campaign Found"
 }
 ```
-
-
-
 
 # Installation
-1. Clone the repository 
+
+1. Clone the repository
+
 ```bash
 git clone https://github.com/neilscallywag/SupportMe.git
 ```
+
 2. Make sure you have Composer installed. Move to the directory where you have composer.json with the command prompt and run the following command:
+
 ```bash
 composer install
 ```
 
-
-
 # Database Entity Relationship Schema
-![Database Schema](images/schema.jpg)
 
+![Database Schema](images/schema.jpg)
 
 # Testing Commands
 
@@ -226,7 +239,9 @@ curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiO
 ```bash
 curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/campaign/pledge_count/1
 ```
+
 #note user id is not provided in the json
+
 ```bash
 curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"pledge_reason\": \"i love you\" }" -i -X POST  localhost/campaign/pledge/1
 ```
