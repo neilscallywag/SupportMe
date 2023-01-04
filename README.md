@@ -1,6 +1,6 @@
 # SupportMe
 
-A smaller clone of change.org for learning purposes
+Our implementation of a business logic similar to change.org
 
 - [SupportMe](#supportme)
 - [Endpoints](#endpoints)
