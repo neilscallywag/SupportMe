@@ -1,6 +1,6 @@
 # SupportMe
 
-Our implementation of a business logic similar to change.org
+Our implementation of a business logic similar to change.org using vanilla PHP, REST api design and content learned during "Operating System and Networking Module" in SMU. 
 
 - [SupportMe](#supportme)
 - [Endpoints](#endpoints)
