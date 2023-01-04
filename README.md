@@ -37,6 +37,30 @@ A smaller clone of change.org for learning purposes
     - [Request](#request-8)
     - [Response - Success 200](#response---success-200-5)
     - [Response - Fail 400](#response---fail-400-1)
+  - [10. Edit Comments](#10-edit-comments)
+    - [Request](#request-9)
+    - [Response - Success 200](#response---success-200-6)
+    - [Response - Fail 400](#response---fail-400-2)
+  - [11. delete Comments](#11-delete-comments)
+    - [Request](#request-10)
+    - [Response - Success 200](#response---success-200-7)
+    - [Response - Fail 400](#response---fail-400-3)
+  - [12. Get pledge count for a given campaign](#12-get-pledge-count-for-a-given-campaign)
+    - [Request](#request-11)
+    - [Response - Success 200](#response---success-200-8)
+    - [Response - Fail 400](#response---fail-400-4)
+  - [13. Get list of all pledgers for a given campaign](#13-get-list-of-all-pledgers-for-a-given-campaign)
+    - [Request](#request-12)
+    - [Response - Success 200](#response---success-200-9)
+    - [Response - Fail 400](#response---fail-400-5)
+  - [14. Pledge to a given campaign](#14-pledge-to-a-given-campaign)
+    - [Request](#request-13)
+    - [Response - Success 200](#response---success-200-10)
+    - [Response - Fail 400](#response---fail-400-6)
+  - [15. Unpledge from a given campaign](#15-unpledge-from-a-given-campaign)
+    - [Request](#request-14)
+    - [Response - Success 200](#response---success-200-11)
+    - [Response - Fail 400](#response---fail-400-7)
 - [Installation](#installation)
 - [Database Entity Relationship Schema](#database-entity-relationship-schema)
 - [Testing Commands](#testing-commands)
@@ -325,6 +349,187 @@ Authorisation Header Required from which the user id is extracted
 ```json
 {
   "message": "Successfully added comment"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 10. Edit Comments
+
+```API
+POST /campaign/edit_comment/[i:coid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute    | Type | Required |    Description     |
+| :------------: | :--: | :------: | :----------------: |
+|  `comment_id`  | int  |   Yes    | comment Identifier |
+| `comment_text` | str  |   Yes    |    Comment Text    |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Successfully changed comment"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 11. delete Comments
+
+```API
+POST /campaign/delete_comment/[i:cid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|  Attribute   | Type | Required |    Description     |
+| :----------: | :--: | :------: | :----------------: |
+| `comment_id` | int  |   Yes    | comment Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Successfully deleted comment"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 12. Get pledge count for a given campaign
+
+```API
+POST /campaign/pledge_count/[*:cid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute   | Type | Required |     Description     |
+| :-----------: | :--: | :------: | :-----------------: |
+| `campaign_id` | int  |   Yes    | campaign Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "pledge_count": 00
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 13. Get list of all pledgers for a given campaign
+
+```API
+POST /campaign/pledge_list/[*:cid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute   | Type | Required |     Description     |
+| :-----------: | :--: | :------: | :-----------------: |
+| `campaign_id` | int  |   Yes    | campaign Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "pledge_count": 00
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 14. Pledge to a given campaign
+
+```API
+POST /campaign/pledge/[*:cid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute   | Type | Required |     Description     |
+| :-----------: | :--: | :------: | :-----------------: |
+| `campaign_id` | int  |   Yes    | campaign Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Pledge successfully added"
+}
+```
+
+### Response - Fail 400
+
+```json
+{
+  "error": ""
+}
+```
+
+## 15. Unpledge from a given campaign
+
+```API
+POST /campaign/unpledge/[*:cid]
+```
+
+### Request
+
+Authorisation Header Required from which the user id is extracted
+
+|   Attribute   | Type | Required |     Description     |
+| :-----------: | :--: | :------: | :-----------------: |
+| `campaign_id` | int  |   Yes    | campaign Identifier |
+
+### Response - Success 200
+
+```json
+{
+  "message": "Pledge deleted"
 }
 ```
 
