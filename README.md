@@ -555,6 +555,8 @@ git clone https://github.com/neilscallywag/SupportMe.git
 composer install
 ```
 
+- Change the inc/config.php's `private_key` to your own private key and `ISSUER` to your own issuer.
+
 # Database Entity Relationship Schema
 
 ![Database Schema](images/schema.jpg)
@@ -572,39 +574,39 @@ curl -i -X POST -d "{ \"firstname\":\"sunset boulevard\",\"lastname\":\"test\",\
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMjEzNzMsImV4cCI6MTY3MjAyNDk3MywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.ZFpeiR0bDMpzhNkxmfPl142I2vSxG_Yp5XX7baoN130" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/id/1
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMzYzNjQsImV4cCI6MTY3MjAzOTk2NCwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.edExBRiqjH5rj_x04YKtON6qeZeVdCzWLaCo5Zxc75s" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":6}" -i -X POST  localhost/campaign/search/save%20my
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMzI2OTcsImV4cCI6MTY3MjAzNjI5NywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.l2nISmDZ5vFFKe_9ztMjZormpRuoDV6uYrstdnNstkA" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/create
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwMzYzNjQsImV4cCI6MTY3MjAzOTk2NCwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.edExBRiqjH5rj_x04YKtON6qeZeVdCzWLaCo5Zxc75s" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/user/campaigns
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/user/campaigns
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/campaign/comments/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/campaign/comments/1
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/campaign/pledge_count/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8 }" -i -X POST  localhost/campaign/pledge_count/1
 ```
 
 #note user id is not provided in the json
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIwNDc0MzUsImV4cCI6MTY3MjA1MTAzNSwiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.172ZA0DP3Tw9lJ1CGCWce64n9WHqABoePMLOr1BQTc8" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"pledge_reason\": \"i love you\" }" -i -X POST  localhost/campaign/pledge/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"pledge_reason\": \"i love you\" }" -i -X POST  localhost/campaign/pledge/1
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIxNTIxMjcsImV4cCI6MTY3MjE1NTcyNywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.iwHTEDubSWB9EjCMDfsHfQwfuaOtk9AzZVIf8_XRWW8" -H "User-Agent: Chrome" -d "{ \"comment_text\": \"i love you\" }" -i -X POST  localhost/campaign/edit_comment/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{ \"comment_text\": \"i love you\" }" -i -X POST  localhost/campaign/edit_comment/1
 ```
 
 ```bash
-curl -H "Authorization: localhost eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzIxNTIxMjcsImV4cCI6MTY3MjE1NTcyNywiaXNzIjoibG9jYWxob3N0IiwiZGF0YSI6eyJlbWFpbCI6Im1haW51c2VyQGxvbC5jb20iLCJ1c2VyX2lkIjo4fX0.iwHTEDubSWB9EjCMDfsHfQwfuaOtk9AzZVIf8_XRWW8" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/edit/1
+curl -H "Authorization: YOUR_ISSUER JWT_TOKEN" -H "User-Agent: Chrome" -d "{\"user_id\":8, \"campaign_title\":\"Let us eat cake\",\"campaign_description\":\"shit have flight eh\",\"campaign_picture\":\"base 64 string here\"}" -i -X POST  localhost/campaign/edit/1
 ```

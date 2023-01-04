@@ -1,6 +1,6 @@
 <?php
-define('PRIVATE_KEY', 'sjf093urji9ewdfnh9013rhneduifjbq4rt0rghqedufgvbdw');
-define('ISSUER', 'localhost');
+define('PRIVATE_KEY', 'YOUR_PRIVATE_KEY');
+define('ISSUER', 'YOUR_ISSUER');
 define('EMPTY_EMAIL_ERROR', 'Please enter an email address');
 define('EMPTY_PASSWORD_ERROR', 'Please enter a password');
 define('INVALID_AUTHENTICATION_TOKEN', 'Invalid authentication token');
